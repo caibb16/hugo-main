@@ -1,0 +1,139 @@
+/* 自定义背景样式 */
+
+/* 使用图片背景 */
+body {
+    background-image: url('/img/background.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* 可选：添加半透明遮罩层使内容更清晰 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.3);
+    z-index: -1;
+}
+
+
+
+
+/* 修改主内容区域背景 */
+.main-container {
+    background-color: transparent;
+}
+
+/* 修改文章卡片背景 */
+.article-list article {
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+/* 修改侧边栏背景 - 使用伪元素延伸到左边缘 */
+.left-sidebar {
+    position: relative;
+    background-color: transparent;
+}
+
+/* 背景层延伸到左边缘 */
+.left-sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: -100vw;  /* 向左延伸到视口边缘 */
+    background-color: transparent;
+    z-index: -1;
+}
+
+/* 确保侧边栏内容保持原位置 */
+.left-sidebar aside {
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================
+   暗色模式优化
+   ============================================ */
+
+/* 暗色模式下的背景遮罩调整 */
+[data-scheme="dark"] body::before {
+    background-color: rgba(0, 0, 0, 0.5);  /* 暗色半透明遮罩 */
+}
+
+/* 暗色模式下的文章卡片 */
+[data-scheme="dark"] .article-list article {
+    background-color: rgba(48, 48, 48, 0.95);  /* 深色背景 */
+    border: 1px solid rgba(255, 255, 255, 0.1);  /* 淡边框 */
+}
+
+/* 暗色模式下的侧边栏 */
+[data-scheme="dark"] .left-sidebar {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* 暗色模式下的侧边栏链接 */
+[data-scheme="dark"] .left-sidebar a {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+[data-scheme="dark"] .left-sidebar a:hover {
+    color: #ecf0f1;
+}
+
+/* 暗色模式下的搜索框 */
+[data-scheme="dark"] .search-form input {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* 暗色模式下的标签 */
+[data-scheme="dark"] .article-tags .article-tag {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* 暗色模式下的小部件/卡片 */
+[data-scheme="dark"] .widget {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 暗色模式下的代码块 */
+[data-scheme="dark"] pre {
+    background-color: rgba(30, 30, 30, 0.95) !important;
+}
+
+/* 暗色模式下的行内代码 */
+[data-scheme="dark"] code {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ff79c6;
+}
+
+/* 暗色模式下的分隔线 */
+[data-scheme="dark"] hr {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 暗色模式下的表格 */
+[data-scheme="dark"] table {
+    background-color: rgba(48, 48, 48, 0.8);
+}
+
+[data-scheme="dark"] th,
+[data-scheme="dark"] td {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 暗色模式下的引用块 */
+[data-scheme="dark"] blockquote {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-left-color: var(--accent-color);
+}
