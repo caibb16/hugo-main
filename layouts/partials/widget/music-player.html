@@ -1,0 +1,58 @@
+<section class="widget music-player">
+    <div class="widget-icon">
+        {{ partial "helper/icon" "music" }}
+    </div>
+    <h2 class="widget-title section-title">{{ default "🎵 音乐播放器" .Params.title }}</h2>
+    
+    <div class="widget-body">
+        {{- $server := default "netease" .Params.server -}}
+        {{- $type := default "playlist" .Params.type -}}
+        {{- $id := default "878415460" .Params.id -}}
+        {{- $autoPlay := default "false" .Params.autoPlay -}}
+        {{- $theme := default "#FF6B6B" .Params.theme -}}
+        
+        <div id="music-player-container">
+            <meting-js
+                server="{{ $server }}"
+                type="{{ $type }}"
+                id="{{ $id }}"
+                fixed="false"
+                mini="false"
+                autoplay="{{ $autoPlay }}"
+                theme="{{ $theme }}"
+                loop="all"
+                order="random"
+                preload="auto"
+                volume="0.7"
+                list-folded="false"
+                list-max-height="250px">
+            </meting-js>
+        </div>
+    </div>
+</section>
+
+<!-- APlayer CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+
+<style>
+.widget.music-player .widget-body {
+    padding: 0;
+    overflow: hidden;
+}
+
+#music-player-container {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.widget.music-player .aplayer {
+    margin: 0;
+    box-shadow: none;
+    border-radius: 8px;
+}
+</style>
+
+<!-- APlayer JS -->
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<!-- MetingJS -->
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js"></script>

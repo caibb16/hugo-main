@@ -1,0 +1,43 @@
+<!-- 方案2: 波浪动画背景 -->
+<div id="wave-background"></div>
+
+<style>
+#wave-background {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    background: transparent;  /* 透明背景，叠加在图片上 */
+    overflow: hidden;
+}
+
+#wave-background::before,
+#wave-background::after {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.2) 0%, transparent 70%);
+}
+
+#wave-background::before {
+    animation: wave 15s linear infinite;
+}
+
+#wave-background::after {
+    animation: wave 20s linear infinite reverse;
+}
+
+@keyframes wave {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+</style>

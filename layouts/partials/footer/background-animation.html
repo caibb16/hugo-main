@@ -1,0 +1,98 @@
+<!-- 动态背景容器 -->
+<div id="particles-js"></div>
+
+<!-- Particles.js 库 -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+<script>
+// 粒子背景配置
+particlesJS('particles-js', {
+    particles: {
+        number: {
+            value: 80,  // 粒子数量
+            density: {
+                enable: true,
+                value_area: 800
+            }
+        },
+        color: {
+            value: '#64748b'  // 粒子颜色
+        },
+        shape: {
+            type: 'circle',  // 粒子形状: circle, edge, triangle, polygon
+            stroke: {
+                width: 0,
+                color: '#000000'
+            }
+        },
+        opacity: {
+            value: 0.5,
+            random: false,
+            anim: {
+                enable: false
+            }
+        },
+        size: {
+            value: 3,
+            random: true,
+            anim: {
+                enable: false
+            }
+        },
+        line_linked: {
+            enable: true,  // 是否连线
+            distance: 150,
+            color: '#64748b',
+            opacity: 0.4,
+            width: 1
+        },
+        move: {
+            enable: true,
+            speed: 2,  // 移动速度
+            direction: 'none',
+            random: false,
+            straight: false,
+            out_mode: 'out',
+            bounce: false
+        }
+    },
+    interactivity: {
+        detect_on: 'canvas',
+        events: {
+            onhover: {
+                enable: true,
+                mode: 'grab'  // 悬停效果: grab, bubble, repulse
+            },
+            onclick: {
+                enable: true,
+                mode: 'push'  // 点击效果: push, remove, bubble, repulse
+            },
+            resize: true
+        },
+        modes: {
+            grab: {
+                distance: 140,
+                line_linked: {
+                    opacity: 1
+                }
+            },
+            push: {
+                particles_nb: 4
+            }
+        }
+    },
+    retina_detect: true
+});
+</script>
+
+<style>
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    background: transparent;  /* 改为透明，让图片背景可见 */
+}
+</style>
