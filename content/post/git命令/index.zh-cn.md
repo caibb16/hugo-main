@@ -4,6 +4,7 @@ description: 记录git的相关命令
 date: 2025-12-06
 categories:
     - git
+tags: ['git', '命令速查']
 ---
 
 ## 基础配置
