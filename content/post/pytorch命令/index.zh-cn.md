@@ -109,7 +109,7 @@ y = torch.zeros_like(x)     # 形状/类型一致
 x = torch.randn(1, 3, 4)
 
 # 展平
-x_flat = x.view(-1)              # 或 x.reshape(-1)
+x_flat = x.view(-1)              # 展平为一维张量，-1表示自动计算这个维度的大小
 
 # 改变形状
 y = x.view(2, 12)                # 2 x 12
