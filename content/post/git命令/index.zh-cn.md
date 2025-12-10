@@ -13,6 +13,9 @@ tags: ['git', '命令速查']
 git config --global user.name "你的名字"
 git config --global user.email "你的邮箱"
 
+# 配置全局代理，端口设置为clash的端口
+git config --global http.proxy http://127.0.0.1:7897
+
 # 查看当前配置
 git config --list
 ```
