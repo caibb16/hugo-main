@@ -77,7 +77,7 @@ hugo-main/
 ### 创建新文章
 
 ```bash
-hugo new content/post/my-new-post/index.md
+hugo new content/post/my-new-post/index.zh-cn.md
 ```
 
 ### Front Matter 示例
