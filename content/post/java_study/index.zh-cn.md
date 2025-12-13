@@ -179,7 +179,8 @@ super.成员方法名(实参列表)：访问父类的成员方法
 2. 成员方法：只能是抽象方法，默认修饰符public abstract
 ### 接口的实现
 1. 使用implements关键字实现接口
-2. 实现接口的类必须重写接口中的所有抽象方法，除非该类是抽象类
+2. 格式：class 类名 implements 接口名1, 接口名2...{}
+3. 实现接口的类必须重写接口中的所有抽象方法，除非该类是抽象类
 ### 接口和类之间的关系
 * 类和类的关系：继承关系，只能单继承，不能多继承
 * 类和接口的关系：实现关系，可以单实现，也可以多实现，可以在继承一个类的同时实现多个接口
@@ -212,7 +213,31 @@ super.成员方法名(实参列表)：访问父类的成员方法
 * 定义：没有类名的内部类，必须继承一个类或实现一个接口，继承类或实现接口的同时创建对象
 * 作用：简化代码编写
 * 格式：new 父类名或接口名(){重写父类或接口的方法};
-
+## 集合进阶
+### collection接口
+1. 是单列集合的顶层接口，所有方法被list和set接口继承
+2. 常用方法：add()、remove()、clear()、size()、isEmpty()、contains()、toArray()
+### List接口
+1. 有序、可重复的集合
+2. 常用实现类：ArrayList、LinkedList、Vector
+3. 常用方法：add(index, element)、get(index)、set(index, element)、remove(index)、indexOf(element)、lastIndexOf(element)、subList(fromIndex, toIndex)
+### Set接口
+1. 无序、不可重复的集合
+2. 常用实现类：HashSet、LinkedHashSet、TreeSet
+3. HashSet：基于哈希表实现，存储元素无序
+4. LinkedHashSet：基于哈希表和链表实现，存储元素有序
+5. TreeSet：基于红黑树实现，存储元素有序
+### 迭代器遍历
+1. 用于遍历集合元素
+2. 获取迭代器对象：Iterator<String> iterator = 集合对象.iterator();
+3. 常用方法：hasNext()、next()、remove()  
+hasNext() 判断当前指针是否有元素，next() 获取当前指向的元素并移动指针，remove() 删除当前元素
+### 增强for遍历
+1. 格式：for(数据类型 变量名 : 集合对象){ //使用变量名进行操作 }
+2. 适用于所有实现了Iterable接口的集合类
+### lamda表达式遍历
+1. 格式：集合对象.forEach(变量名 -> { //使用变量名进行操作 });
+2. 简化代码编写，提高可读性
 
 
 

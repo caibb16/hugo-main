@@ -1,6 +1,195 @@
 {{ partial "footer/footer.html" . }}
 
-<!-- 选择一种动态效果（取消注释想要的效果） -->
+<!-- Live2D 看板娘 - 简洁版 -->
+<script src="https://fastly.jsdelivr.net/npm/live2d-widget@3.1.4/lib/L2Dwidget.min.js"></script>
+
+<!-- 对话框样式 -->
+<style>
+#live2d-tips {
+    position: fixed;
+    bottom: 250px;
+    left: 40px;
+    background: rgba(129, 220, 226, 0.95);
+    border: 1px solid #ffffff;
+    border-radius: 12px;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #5b6c7d;
+    box-shadow: 0 3px 15px rgba(191, 158, 118, 0.3);
+    max-width: 250px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    z-index: 999;
+}
+
+#live2d-tips.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    #live2d-tips {
+        display: none;
+    }
+}
+</style>
+
+<!-- 对话框容器 -->
+<div id="live2d-tips"></div>
+
+<script>
+    // 初始化看板娘 - 初音未来
+    L2Dwidget.init({
+        "model": {
+            jsonPath: "https://unpkg.com/live2d-widget-model-miku@1.0.5/assets/miku.model.json",
+            "scale": 1
+        },
+        "display": {
+            "position": "left",
+            "width": 150,
+            "height": 300,
+            "hOffset": 0,
+            "vOffset": -20
+        },
+        "mobile": {
+            "show": false
+        },
+        "react": {
+            "opacityDefault": 0.9,
+            "opacityOnHover": 1.0
+        }
+    });
+
+    // 显示消息
+    let messageTimer;
+    function showMessage(text, duration = 4000) {
+        const tips = document.getElementById('live2d-tips');
+        if (!tips || !text) return;
+        
+        tips.innerHTML = text;
+        tips.classList.add('show');
+        
+        clearTimeout(messageTimer);
+        if (duration > 0) {
+            messageTimer = setTimeout(() => {
+                tips.classList.remove('show');
+            }, duration);
+        }
+    }
+
+    // 根据时间获取问候
+    function getTimeGreeting() {
+        const hour = new Date().getHours();
+        const greetings = {
+            night: ['夜深了，早点休息吧 💤', '晚安～记得明天来看我哦'],
+            morning: ['早上好！☀️', '新的一天开始啦，加油！'],
+            noon: ['中午了，该吃饭啦！🍱', '记得休息一下哦'],
+            afternoon: ['下午好！☕', '下午茶时间，要不要喝杯咖啡？'],
+            evening: ['晚上好！🌙', '辛苦一天了，慢慢浏览吧']
+        };
+        
+        if (hour < 6) return greetings.night[Math.floor(Math.random() * greetings.night.length)];
+        if (hour < 11) return greetings.morning[Math.floor(Math.random() * greetings.morning.length)];
+        if (hour < 14) return greetings.noon[Math.floor(Math.random() * greetings.noon.length)];
+        if (hour < 18) return greetings.afternoon[Math.floor(Math.random() * greetings.afternoon.length)];
+        if (hour < 22) return greetings.evening[Math.floor(Math.random() * greetings.evening.length)];
+        return greetings.night[Math.floor(Math.random() * greetings.night.length)];
+    }
+
+    // 页面加载后显示欢迎
+    window.addEventListener('load', function() {
+        setTimeout(() => {
+            const isFirstVisit = !localStorage.getItem('visited');
+            if (isFirstVisit) {
+                showMessage('你好！我是初音未来 ♪<br>欢迎来到 caibb16 的博客！', 6000);
+                localStorage.setItem('visited', 'true');
+            } else {
+                showMessage(getTimeGreeting(), 5000);
+            }
+        }, 2000);
+    });
+
+    // 点击看板娘互动
+    document.addEventListener('click', function(e) {
+        const canvas = document.querySelector('#landlord canvas');
+        if (canvas && canvas.contains(e.target)) {
+            const clickMessages = [
+                '不要戳我啦！(｡•ˇ‸ˇ•｡)',
+                '哼！再戳就生气了！',
+                '你要干嘛呀？',
+                '讨厌！(*/ω＼*)',
+                '再戳我就要消失啦！'
+            ];
+            showMessage(clickMessages[Math.floor(Math.random() * clickMessages.length)], 3000);
+        }
+    });
+
+    // 鼠标悬停元素提示
+    document.addEventListener('mouseover', function(e) {
+        const target = e.target;
+        
+        // 文章标题
+        if (target.matches('.article-title, .article-list .article-title a')) {
+            showMessage('要不要看看这篇文章？📖', 3000);
+        }
+        // 标签
+        else if (target.matches('.article-tags a, .tag-cloud a')) {
+            const tag = target.textContent.trim();
+            showMessage(`标签「${tag}」相关的内容哦 🏷️`, 3000);
+        }
+        // 分类
+        else if (target.matches('.article-category a')) {
+            const category = target.textContent.trim();
+            showMessage(`分类「${category}」下的文章 📂`, 3000);
+        }
+        // 导航链接
+        else if (target.matches('.site-nav a, .menu a')) {
+            const text = target.textContent.trim();
+            const tips = {
+                '主页': '回到主页看看最新内容 🏠',
+                '归档': '所有文章都在这里哦 📚',
+                '关于': '想了解博主吗？🤔',
+                '搜索': '试试搜索你感兴趣的内容 🔍',
+                '链接': '这里有一些友情链接 🔗'
+            };
+            if (tips[text]) {
+                showMessage(tips[text], 3000);
+            }
+        }
+        // 搜索框
+        else if (target.matches('input[type="search"], .search-input')) {
+            showMessage('输入关键词搜索文章吧 🔍', 3000);
+        }
+        // 社交链接
+        else if (target.closest('.social-links a, .sidebar-social a')) {
+            showMessage('想关注博主吗？👀', 3000);
+        }
+        // 音乐播放器
+        else if (target.closest('.aplayer, .music-player')) {
+            showMessage('来听听音乐放松一下吧 🎵', 3000);
+        }
+        // 评论区
+        else if (target.closest('.giscus, .comments')) {
+            showMessage('欢迎在评论区留言哦 💬', 3000);
+        }
+        // 返回顶部
+        else if (target.matches('.back-to-top, #back-to-top')) {
+            showMessage('点击回到顶部 ⬆️', 2000);
+        }
+        // 复制按钮
+        else if (target.matches('.copy-button, .copy-code-button')) {
+            showMessage('复制代码到剪贴板 📋', 2000);
+        }
+        // 图片
+        else if (target.matches('.article-image img, .post-content img')) {
+            showMessage('点击查看大图 🖼️', 2000);
+        }
+    });
+</script>
+
+<!-- 选择一种背景动态效果（取消注释想要的效果） -->
 
 <!-- 方案1: 粒子动画（默认已启用） -->
 {{ partial "footer/background-animation.html" . }}
