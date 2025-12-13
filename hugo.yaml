@@ -44,9 +44,17 @@ permalinks:
     post: /p/:slug/
     page: /:slug/
 
+# 文章排序方式：按最后修改时间倒序
+taxonomies:
+    tag: tags
+    category: categories
+
 params:
     mainSections:
         - post
+    # 使用 lastmod 作为排序依据
+    sortBy: lastmod
+    sortOrder: desc
     featuredImageField: image
     rssFullContent: true
     favicon: # e.g.: favicon placed in `static/favicon.ico` of your site folder, then set this field to `/favicon.ico` (`/` is necessary)
