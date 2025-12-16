@@ -48,3 +48,14 @@ git checkout -b feature-x
 git branch -d dev
 git branch -D dev  # 强制删除
 ```
+## 本地和远程操作
+```bash
+# 查看远程仓库
+git remote -v
+# 添加远程仓库
+git remote add origin
+# 推送到远程仓库
+git push origin main
+# 拉取远程仓库最新代码
+git pull origin main
+```
