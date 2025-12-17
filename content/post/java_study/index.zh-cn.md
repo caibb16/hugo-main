@@ -213,7 +213,7 @@ super.成员方法名(实参列表)：访问父类的成员方法
 * 定义：没有类名的内部类，必须继承一个类或实现一个接口，继承类或实现接口的同时创建对象
 * 作用：简化代码编写
 * 格式：new 父类名或接口名(){重写父类或接口的方法};
-## 集合框架
+## 单列集合
 ### collection顶层接口
 1. 是单列集合的顶层接口，所有方法被list和set接口继承
 2. 常用方法：add()、remove()、clear()、size()、isEmpty()、contains()、toArray()
@@ -328,7 +328,16 @@ hasNext() 判断当前指针是否有元素，next() 获取当前指向的元素
 4. 接口实现：
    * 默认排序：集合中的元素实现Comparable接口，重写compareTo()方法，指定排序规则
    * 比较器排序：集合使用Comparator接口，重写compare()方法，指定排序规则
-
+## 双列集合
+### Map接口
+1. 双列集合的顶层接口，存储键值对（key-value）
+2. 常用实现类：HashMap、LinkedHashMap、TreeMap
+3. 常用方法：put(key, value)、get(key)、remove(key)、containsKey(key)、containsValue(value)、keySet()、values()、entrySet()
+4. 遍历方法：
+   * keySet()把键存储到Set集合中，遍历Set集合获取键，再通过键获取值
+   * EntrySet()把键值对存储到Set集合中，遍历Set集合获取每一个键值对，再通过键值对获取键和值
+   * Lambda表达式遍历：map.forEach((key, value) -> { //使用key和value进行操作 });
+   
 
 
 
