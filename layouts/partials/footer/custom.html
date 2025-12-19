@@ -59,12 +59,36 @@
         "react": {
             "opacityDefault": 0.9,
             "opacityOnHover": 1.0
+        },
+        "dialog": {
+            "enable": false
         }
     });
+    
+    // 点击互动消息
+    const clickMessages = [
+        '不要戳我啦！(｡•ˇ‸ˇ•｡)',
+        '哼！再戳就生气了！',
+        '你要干嘛呀？',
+        '讨厌！(*/ω＼*)',
+        '再戳我就要消失啦！'
+    ];
+    
+    // 等待 L2Dwidget 加载完成后绑定点击事件
+    setTimeout(() => {
+        const canvasContainer = document.querySelector('#live2dcanvas');
+        if (canvasContainer) {
+            canvasContainer.style.cursor = 'pointer';
+            canvasContainer.addEventListener('click', function() {
+                const randomMessage = clickMessages[Math.floor(Math.random() * clickMessages.length)];
+                showMessage(randomMessage, 3000);
+            });
+        }
+    }, 2000);
 
     // 显示消息
     let messageTimer;
-    function showMessage(text, duration = 4000) {
+    function showMessage(text, duration = 1000) {
         const tips = document.getElementById('live2d-tips');
         if (!tips || !text) return;
         
@@ -111,38 +135,23 @@
         }, 2000);
     });
 
-    // 点击看板娘互动
-    document.addEventListener('click', function(e) {
-        const canvas = document.querySelector('#landlord canvas');
-        if (canvas && canvas.contains(e.target)) {
-            const clickMessages = [
-                '不要戳我啦！(｡•ˇ‸ˇ•｡)',
-                '哼！再戳就生气了！',
-                '你要干嘛呀？',
-                '讨厌！(*/ω＼*)',
-                '再戳我就要消失啦！'
-            ];
-            showMessage(clickMessages[Math.floor(Math.random() * clickMessages.length)], 3000);
-        }
-    });
-
     // 鼠标悬停元素提示
     document.addEventListener('mouseover', function(e) {
         const target = e.target;
         
         // 文章标题
         if (target.matches('.article-title, .article-list .article-title a')) {
-            showMessage('要不要看看这篇文章？📖', 3000);
+            showMessage('要不要看看这篇文章？📖');
         }
         // 标签
         else if (target.matches('.article-tags a, .tag-cloud a')) {
             const tag = target.textContent.trim();
-            showMessage(`标签「${tag}」相关的内容哦 🏷️`, 3000);
+            showMessage(`标签「${tag}」相关的内容哦 🏷️`);
         }
         // 分类
         else if (target.matches('.article-category a')) {
             const category = target.textContent.trim();
-            showMessage(`分类「${category}」下的文章 📂`, 3000);
+            showMessage(`分类「${category}」下的文章 📂`);
         }
         // 导航链接
         else if (target.matches('.site-nav a, .menu a')) {
@@ -160,19 +169,19 @@
         }
         // 搜索框
         else if (target.matches('input[type="search"], .search-input')) {
-            showMessage('输入关键词搜索文章吧 🔍', 3000);
+            showMessage('输入关键词搜索文章吧 🔍');
         }
         // 社交链接
         else if (target.closest('.social-links a, .sidebar-social a')) {
-            showMessage('想关注博主吗？👀', 3000);
+            showMessage('想关注博主吗？👀');
         }
         // 音乐播放器
         else if (target.closest('.aplayer, .music-player')) {
-            showMessage('来听听音乐放松一下吧 🎵', 3000);
+            showMessage('来听听音乐放松一下吧 🎵');
         }
         // 评论区
         else if (target.closest('.giscus, .comments')) {
-            showMessage('欢迎在评论区留言哦 💬', 3000);
+            showMessage('欢迎在评论区留言哦 💬');
         }
         // 返回顶部
         else if (target.matches('.back-to-top, #back-to-top')) {
