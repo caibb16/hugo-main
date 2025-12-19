@@ -26,7 +26,7 @@ languages:
         weight: 2
         params:
             sidebar:
-                subtitle: 欢迎来到我的网站
+                subtitle: 一个摆烂人的小窝
 
 
 services:
@@ -232,6 +232,13 @@ menu:
           url: https://x.com/caibb16
           params:
               icon: brand-twitter
+
+        - identifier: bilibili
+          name: Bilibili
+          url: https://space.bilibili.com/219954243?spm_id_from=333.1007.0.0
+          params:
+              icon: brand-bilibili
+
 
 related:
     includeNewer: true

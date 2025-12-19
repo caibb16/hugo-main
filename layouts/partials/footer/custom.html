@@ -7,8 +7,8 @@
 <style>
 #live2d-tips {
     position: fixed;
-    bottom: 250px;
-    left: 40px;
+    bottom: 220px;
+    left: 30px;
     background: rgba(129, 220, 226, 0.95);
     border: 1px solid #ffffff;
     border-radius: 12px;
@@ -41,6 +41,20 @@
 
 <script>
     // 初始化看板娘 - 初音未来
+    // 可用模型列表（替换下方 jsonPath 的值即可切换模型）：
+    // - https://unpkg.com/live2d-widget-model-miku@1.0.5/assets/miku.model.json (初音未来 - 当前使用)
+    // - https://unpkg.com/live2d-widget-model-haruto@1.0.5/assets/haruto.model.json (春斗)
+    // - https://unpkg.com/live2d-widget-model-hibiki@1.0.5/assets/hibiki.model.json (响)
+    // - https://unpkg.com/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json (羊栖菜)
+    // - https://unpkg.com/live2d-widget-model-izumi@1.0.5/assets/izumi.model.json (泉)
+    // - https://unpkg.com/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json (小春)
+    // - https://unpkg.com/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json (雫)
+    // - https://unpkg.com/live2d-widget-model-tororo@1.0.5/assets/tororo.model.json (山芋)
+    // - https://unpkg.com/live2d-widget-model-tsumiki@1.0.5/assets/tsumiki.model.json (积木)
+    // - https://unpkg.com/live2d-widget-model-unitychan@1.0.5/assets/unitychan.model.json (Unity酱)
+    // - https://unpkg.com/live2d-widget-model-wanko@1.0.5/assets/wanko.model.json (汪子)
+    // - https://unpkg.com/live2d-widget-model-z16@1.0.5/assets/z16.model.json (Z16)
+    
     L2Dwidget.init({
         "model": {
             jsonPath: "https://unpkg.com/live2d-widget-model-miku@1.0.5/assets/miku.model.json",
@@ -49,45 +63,26 @@
         "display": {
             "position": "left",
             "width": 150,
-            "height": 300,
+            "height": 250,
             "hOffset": 0,
             "vOffset": -20
         },
         "mobile": {
-            "show": false
+            "show": true  // 移动端显示看板娘
         },
         "react": {
             "opacityDefault": 0.9,
             "opacityOnHover": 1.0
         },
         "dialog": {
-            "enable": false
+            "enable": false  // 关闭默认对话框
         }
     });
-    
-    // 点击互动消息
-    const clickMessages = [
-        '不要戳我啦！(｡•ˇ‸ˇ•｡)',
-        '哼！再戳就生气了！',
-        '你要干嘛呀？',
-        '讨厌！(*/ω＼*)',
-        '再戳我就要消失啦！'
-    ];
-    
-    // 等待 L2Dwidget 加载完成后绑定点击事件
-    setTimeout(() => {
-        const canvasContainer = document.querySelector('#live2dcanvas');
-        if (canvasContainer) {
-            canvasContainer.style.cursor = 'pointer';
-            canvasContainer.addEventListener('click', function() {
-                const randomMessage = clickMessages[Math.floor(Math.random() * clickMessages.length)];
-                showMessage(randomMessage, 3000);
-            });
-        }
-    }, 2000);
 
     // 显示消息
     let messageTimer;
+    let allowHoverTips = false; // 控制是否允许悬停提示
+    
     function showMessage(text, duration = 1000) {
         const tips = document.getElementById('live2d-tips');
         if (!tips || !text) return;
@@ -125,18 +120,17 @@
     // 页面加载后显示欢迎
     window.addEventListener('load', function() {
         setTimeout(() => {
-            const isFirstVisit = !localStorage.getItem('visited');
-            if (isFirstVisit) {
-                showMessage('你好！我是Hatsune Miku ♪<br>欢迎来到 caibb16 的博客！', 6000);
-                localStorage.setItem('visited', 'true');
-            } else {
-                showMessage(getTimeGreeting(), 5000);
-            }
-        }, 2000);
+            showMessage('你好！我是Hatsune Miku ♪<br>欢迎来到 caibb16 的博客！', 3000);
+            // 欢迎消息显示3秒后，再启用悬停提示
+            setTimeout(() => {
+                allowHoverTips = true;
+            }, 3500);
+        }, 500);
     });
 
     // 鼠标悬停元素提示
     document.addEventListener('mouseover', function(e) {
+        if (!allowHoverTips) return; // 欢迎消息期间不显示悬停提示
         const target = e.target;
         
         // 文章标题
@@ -164,7 +158,7 @@
                 '链接': '这里有一些友情链接 🔗'
             };
             if (tips[text]) {
-                showMessage(tips[text], 3000);
+                showMessage(tips[text]);
             }
         }
         // 搜索框
@@ -172,8 +166,21 @@
             showMessage('输入关键词搜索文章吧 🔍');
         }
         // 社交链接
-        else if (target.closest('.social-links a, .sidebar-social a')) {
-            showMessage('想关注博主吗？👀');
+        else if (target.closest('.menu-social a, .social-links a, .sidebar-social a')) {
+            const link = target.closest('a');
+            const href = link ? link.href.toLowerCase() : '';
+            
+            if (href.includes('github')) {
+                showMessage('来 GitHub 看看我的代码吧 👨‍💻');
+            } else if (href.includes('twitter') || href.includes('x.com')) {
+                showMessage('X 上关注我吧 🐦');
+            } else if (href.includes('bilibili')) {
+                showMessage('B站关注我吧 📺');
+            } else if (href.includes('qq.com') || href.includes('tencent')) {
+                showMessage('加我 QQ 好友吧 💬');
+            } else {
+                showMessage('想关注博主吗？👀');
+            }
         }
         // 音乐播放器
         else if (target.closest('.aplayer, .music-player')) {
@@ -185,15 +192,15 @@
         }
         // 返回顶部
         else if (target.matches('.back-to-top, #back-to-top')) {
-            showMessage('点击回到顶部 ⬆️', 2000);
+            showMessage('点击回到顶部 ⬆️');
         }
         // 复制按钮
         else if (target.matches('.copy-button, .copy-code-button')) {
-            showMessage('复制代码到剪贴板 📋', 2000);
+            showMessage('复制代码到剪贴板 📋');
         }
         // 图片
         else if (target.matches('.article-image img, .post-content img')) {
-            showMessage('点击查看大图 🖼️', 2000);
+            showMessage('点击查看大图 🖼️');
         }
     });
 </script>
