@@ -3,7 +3,7 @@ date = '2025-12-21T14:49:14+08:00'
 draft = true
 description = '强化学习及PPO算法简介'
 title = 'Reinforcement Learning'
-categories = ['Reinforcement Learning', 'Machine Learning']
+categories = ['RL', 'Machine Learning']
 +++
 ## 什么是强化学习
 强化学习（Reinforcement Learning，RL）是一种机器学习范式，旨在训练智能体通过与环境交互来学习最佳行为策略，以最大化累积奖励。与监督学习不同，强化学习没有明确的输入输出对，而是通过试错和奖励信号来指导学习过程。
