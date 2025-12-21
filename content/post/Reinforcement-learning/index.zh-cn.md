@@ -1,7 +1,7 @@
 +++
 date = '2025-12-21T14:49:14+08:00'
 draft = true
-description = 强化学习及PPO算法简介
+description = '强化学习及PPO算法简介'
 title = 'Reinforcement Learning'
 categories = ['Reinforcement Learning', 'Machine Learning']
 +++
