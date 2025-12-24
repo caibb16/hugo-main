@@ -63,7 +63,14 @@ head -n 20 file.txt    # 显示前20行
 tail file.txt          # 显示后10行
 tail -f log.txt        # 实时跟踪文件更新（日志）
 ```
+### 软件安装
 
+```bash
+sudo apt update                   # 更新软件包列表
+sudo apt install package_name     # 安装软件包
+sudo apt remove package_name      # 卸载软件包
+sudo dpkg -i package.deb            # 安装 .deb 包  
+```
 ---
 
 ## 文件搜索
@@ -95,22 +102,7 @@ grep -v "keyword" file.txt        # 反向匹配（排除）
 grep -E "regex" file.txt          # 使用正则表达式
 ```
 
-### sed（流编辑器）
 
-```bash
-sed 's/old/new/' file.txt         # 替换每行第一个匹配
-sed 's/old/new/g' file.txt        # 替换所有匹配
-sed -i 's/old/new/g' file.txt     # 直接修改文件
-sed -n '10,20p' file.txt          # 打印第10-20行
-```
-
-### awk（文本分析）
-
-```bash
-awk '{print $1}' file.txt         # 打印第一列
-awk '{print $1, $3}' file.txt     # 打印第1和第3列
-awk -F: '{print $1}' /etc/passwd  # 指定分隔符为冒号
-```
 
 ---
 
