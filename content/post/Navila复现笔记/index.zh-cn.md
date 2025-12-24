@@ -8,8 +8,22 @@ categories = [
 ]
 +++
 ## 论文解读
-Navila: A High-Performance and Energy-Efficient Vector Length Agnostic SIMD Architecture
-待定
+Navila: A High-Performance and Energy-Efficient Vector Length Agnostic SIMD Architecture  
+### 两级框架
+* 高层次视觉语言理解：VLM输出语言形式的中级动作，例如“右转 30 度”
+* 低层次运动控制：训练一个低级视觉运动策略来遵循指令以进行执行
+![Navila架构图](image.png)
+### 实现方法
+1. 训练VLA用于导航
+    * 选择基于图像的视觉语言模型VILA
+    * 将历史和当前观测的标记与导航指令整合，构建导航任务提示
+    * 从人类视频中收集轨迹-指令对以增强导航能力
+
+2. 视觉移动策略
+    * 机器人配备一个安装在其头部底座的 LiDAR 传感器，以 15Hz 的频率广播点云
+    * 将VLM输出的可执行指令转换为具体的速度指令，例如将{前进，向左转，向右转，停止}转换为{0.5 m /s，π/6 rad/s， −π/6 rad/s ，0}
+    * 采用PPO算法训练控制策略，动作空间定义为期望的关节位置，观测空间包括本体感知、速度指令、以及机器人附近地形的高度
+![Navila控制策略](image2.png)
 
 ## 实验复现(评估部分)  
 ### 环境配置
@@ -156,3 +170,26 @@ ps aux | grep "run.py.*navila"
 # 停止当前评估
 pkill -9 -f "run.py.*navila"
 ```
+### Debug
+记录项目复现过程中遇到的一些问题
+1. 服务器网络问题  
+复现该项目时还是初次使用服务器，服务器由于没有图形化界面，一些仿真没办法实时显示，且服务器访问国外的网站速度较慢，不像自己电脑那样可以直接搭梯子访问。不过可以通过让服务器端走本地代理的方式来解决：  
+* 在本地电脑输入以下命令:
+```bash
+# 本地端口号7897,需要查看自己的clash等代理软件的端口号,填写其他参数记得删去占位符<>
+ssh -vvv -N -R 7897:localhost:7897 -p <远程服务器端口号> <username>@<server_ip>
+```
+* 在服务器上设置环境变量
+```bash
+# 只在当前终端生效,将其写入~/.bashrc文件可以永久生效，但我没有那个权限
+export http_proxy="http://localhost:7897"
+export https_proxy="http://localhost:7897"
+```
+这样服务器就可以访问外网了，克隆github项目、下载hugging_face模型等都可以顺利进行。
+
+2. Matterport3D数据集加载问题  
+mp3d数据及下载比较麻烦，使用官方给的脚本不知道为什么只会下载scans文件夹，这里面一般是深度、RGB图片等原始数据,评估过程其实是不需要的，真正需要的是task文件夹下的文件，但即使我使用--task habitat后缀仍然没法下载task相关文件，目前没找到解决办法，我是直接去找师兄要了数据集，也可以去咸鱼上买现成的。  
+最后的场景文件夹下应包括.glb等格式的文件。不同的场景有不同的ID，理论上评估预训练模型需要许多场景，但我实测先装一个ID为zsNo4HB9uLZ的场景就可以跑通评测，过程中有的episode发现没有的场景会直接跳过，后续可以慢慢补充其他场景再进行评估。
+
+### 实验结果
+待定
