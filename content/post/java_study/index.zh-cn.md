@@ -364,7 +364,16 @@ hasNext() 判断当前指针是否有元素，next() 获取当前指向的元素
 * set.of(E... elements)：创建不可变的Set集合，元素不能重复
 * map.of(K k1, V v1, K k2, V v2, ...)：创建不可变的Map集合，键值对数量上限为10
 * map.ofEntries(Map.Entry<? extends K, ? extends V>... entries)：创建不可变的Map集合，键值对数量不限
-
+## Stream流
+### 使用
+1. collection集合  
+   * 集合对象.stream()：获取集合的Stream流
+2. map集合  
+   * 需要先使用entrySet()将map转换为单列集合，再转换为Stream流
+3. Arrays工具类  
+   * Arrays.stream(数组对象)：获取数组的Stream流 
+2. Stream接口
+   * 静态方法：of()、iterate()、generate()、concat()
 
 
 
