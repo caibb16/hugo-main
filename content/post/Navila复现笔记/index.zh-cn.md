@@ -147,5 +147,12 @@ print("模型下载到本地路径:", local_dir)
 2. 在r2r上运行评估
 ```bash
 # bash scripts/eval/r2r.sh CKPT_PATH NUM_CHUNKS CHUNK_START_IDX "GPU_IDS"
+# 单显卡
 bash scripts/eval/r2r.sh /data/code/seu004/czd/NaVILA/navila-llama3-8b-8f 1 0 "0"
+# 多显卡
+bash scripts/eval/r2r.sh /data/code/seu004/czd/NaVILA/navila-llama3-8b-8f 4 0 "2,3,4,5"
+# 检查所有Python评估进程
+ps aux | grep "run.py.*navila"
+# 停止当前评估
+pkill -9 -f "run.py.*navila"
 ```
