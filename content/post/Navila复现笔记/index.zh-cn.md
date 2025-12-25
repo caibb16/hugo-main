@@ -1,6 +1,5 @@
 +++
 date = '2025-12-24T12:39:23+08:00'
-draft = true
 title = 'Navila复现笔记'
 categories = [
     "笔记",
