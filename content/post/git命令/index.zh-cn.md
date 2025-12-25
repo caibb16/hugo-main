@@ -1,9 +1,8 @@
 ---
 title: git命令自用
-description: 记录git的相关命令
 date: 2025-12-06
 categories:
-    - git
+    - 工具
 tags: ['git', '命令速查']
 ---
 

@@ -3,27 +3,43 @@ date = '2025-12-24T12:39:23+08:00'
 draft = true
 title = 'Navila复现笔记'
 categories = [
-    "Notes",
-    "VLA",
+    "笔记",
+    "VLA"
+]
+tags = [
+    "Navila",
+    "论文复现"
 ]
 +++
+
+## 引言
+本文尝试对Navila论文进行复现,引用如下：  
+[Paper Link](https://arxiv.org/abs/2412.04453)  
+[Project Link](https://github.com/AnjieCheng/NaVILA)
+
 ## 论文解读
-Navila: A High-Performance and Energy-Efficient Vector Length Agnostic SIMD Architecture  
+NaVILA: Legged Robot Vision-Language-Action  Model for Navigation  
+### 基本目标
+在收到人类指令后，NaVILA 使用视觉语言模型处理 RGB 视频帧，并运用运动技能在机器人上执行任务。该机器人能够成功完成长时程导航任务，并在复杂环境中安全运行。  
+该项目的创新基于端到端的VLA系统，该系统对通用 VLM 进行微调，以生成量化的低级动作，这个过程的推理和执行十分具有挑战性。本项目为了用更好的方式表示动作，建立了一个两级框架，将高层次的视觉语言理解与低层次的运动控制分开。
 ### 两级框架
-* 高层次视觉语言理解：VLM输出语言形式的中级动作，例如“右转 30 度”
-* 低层次运动控制：训练一个低级视觉运动策略来遵循指令以进行执行
+* 高层次视觉语言理解：VLM输出语言形式的中级动作，例如“右转 30 度”。中级动作输出传达了位置和方向信息，指导机器人的导航策略。
+* 低层次运动控制：训练一个低级视觉运动策略来遵循指令以对导航指令进行执行，具体来说就是将VLM的高层语言导航指令转换为精确的联合动作。
 ![Navila架构图](image.png)
 ### 实现方法
 1. 训练VLA用于导航
     * 选择基于图像的视觉语言模型VILA
     * 将历史和当前观测的标记与导航指令整合，构建导航任务提示
-    * 从人类视频中收集轨迹-指令对以增强导航能力
+    * 从人类视频中收集轨迹-指令对以增强在连续空间的导航能力
+
+训练过程如下图：
+![Navila控制策略](image2.png)
 
 2. 视觉移动策略
-    * 机器人配备一个安装在其头部底座的 LiDAR 传感器，以 15Hz 的频率广播点云
-    * 将VLM输出的可执行指令转换为具体的速度指令，例如将{前进，向左转，向右转，停止}转换为{0.5 m /s，π/6 rad/s， −π/6 rad/s ，0}
-    * 采用PPO算法训练控制策略，动作空间定义为期望的关节位置，观测空间包括本体感知、速度指令、以及机器人附近地形的高度
-![Navila控制策略](image2.png)
+    * 该控制策略在Isaac Sim模拟器中使用Isaac Lab进行训练，然后直接部署到真实机器人上
+    * 将VLM输出的可执行指令转换为固定的速度指令，例如将{前进，向左转，向右转，停止}转换为{0.5 m /s，π/6 rad/s， −π/6 rad/s ，0}并执行相应时间
+    * 采用PPO算法训练控制策略，了解PPO算法可参考我的[强化学习笔记](https://caibb16.github.io/p/reinforcement-learning/)。Critic的观察空间包含当前时间步 t 的本体感觉和速度指令，以及机器人周围的特权地形高度扫描，其中本体感觉数据包括机器人的线速度和角速度、方向、关节位置、关节速度以及之前的动作。Actor的观察空间排除了线速度，动作空间定义为期望的关节位置
+    * 机器人配备了一个安装在其头部底座的 LiDAR 传感器，用于检测现实中的透明物体
 
 ## 实验复现(评估部分)  
 ### 环境配置
@@ -169,6 +185,8 @@ bash scripts/eval/r2r.sh /data/code/seu004/czd/NaVILA/navila-llama3-8b-8f 4 0 "2
 ps aux | grep "run.py.*navila"
 # 停止当前评估
 pkill -9 -f "run.py.*navila"
+# 汇总并查看得分
+python scripts/eval_jsons.py ./eval_out/navila-llama3-8b-8f/VLN-CE-v1/val_unseen NUM_CHUNKS
 ```
 ### Debug
 记录项目复现过程中遇到的一些问题
@@ -192,4 +210,8 @@ mp3d数据及下载比较麻烦，使用官方给的脚本不知道为什么只�
 最后的场景文件夹下应包括.glb等格式的文件。不同的场景有不同的ID，理论上评估预训练模型需要许多场景，但我实测先装一个ID为zsNo4HB9uLZ的场景就可以跑通评测，过程中有的episode发现没有的场景会直接跳过，后续可以慢慢补充其他场景再进行评估。
 
 ### 实验结果
-待定
+* 运行r2r.sh脚本后，终端会实时可视化VLM的action指令![终端显示](image3.png)
+* 并会在`valuation/eval_out/navila-llama3-8b-8f/VLN-CE-v1/val_unseen/videos`路径下生成大量评估视频，视频左下方为导航指令，视频名称中的spl是导航中常用的评估指标，基准值为1/0代表是否成功，再乘上一个最短路径与实际路径比值。  
+每个视频是一个episode，会选取一个场景进行评估，解压R2R数据集下的val_unseen.json.gz文件后可以看到episodes总共有1838个，8张显卡大概要跑2～3小时，如果不需要查看最终分数的话不跑完也可以。
+* 其中一个spl=1的episode如下：
+<video src="episode=53-ckpt=0-spl=1.00.mp4" controls="controls" width="700"></video>

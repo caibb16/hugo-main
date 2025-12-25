@@ -3,7 +3,8 @@ title: java_study
 description: 学习java入门时做的笔记
 date: 2025-12-05
 categories:
-    - Java
+    - 笔记
+tags: ['java', '语法']
 ---
 
 ## 数据类型

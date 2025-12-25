@@ -2,9 +2,8 @@
 date = '2025-12-10T14:28:59+08:00'
 draft = false
 title = 'Linux 常用命令速查'
-description = '记录 Linux 基础常用命令'
-categories = ['Linux', '运维']
-tags = ['Linux', '命令行', '命令速查']
+categories = ['工具']
+tags = ['Linux', '命令速查']
 +++
 
 > 记录常用 Linux 命令，偏"日常使用备忘"。

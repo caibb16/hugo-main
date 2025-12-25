@@ -5,13 +5,10 @@ date = "2019-03-11"
 description = "展示基本 Markdown 语法和 HTML 元素格式的示例文章。"
 tags = [
     "markdown",
-    "css",
-    "html",
-    "themes",
+    "语法",
 ]
 categories = [
-    "themes",
-    "syntax",
+    "工具"
 ]
 series = ["Themes Guide"]
 aliases = ["migrate-from-jekyl"]

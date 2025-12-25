@@ -2,9 +2,8 @@
 date: '2025-12-08T16:18:37+08:00'
 draft: false
 title: 'PyTorch 张量操作命令速查'
-description: '记录 PyTorch 常用张量操作命令'
-categories: ['PyTorch', 'Deep Learning']
-tags: ['PyTorch', '张量', '深度学习', '命令速查']
+categories: ['工具']
+tags: ['PyTorch', '张量', '命令速查']
 ---
 
 > 记录常用 PyTorch 张量操作命令，偏"查表备忘"。

@@ -3,7 +3,8 @@ title: Turtlebot3_test
 description: 记录Turtlebot3的相关命令
 date: 2025-12-06
 categories:
-    - ROS
+    - 命令
+tags: ['Turtlebot3', 'ROS2', 'SLAM']
 ---
 
 ## 启动 TurtleBot3 基础世界仿真
