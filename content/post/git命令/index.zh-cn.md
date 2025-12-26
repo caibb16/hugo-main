@@ -53,6 +53,12 @@ git branch -D dev  # 强制删除
 git remote -v
 # 添加远程仓库
 git remote add origin
+# 暂存文件到暂存区
+git add 文件名
+# 提交更改到本地仓库
+git commit -m "提交信息"
+# 撤销上一次的更改提交
+git reset --soft HEAD^
 # 推送到远程仓库
 git push origin main
 # 拉取远程仓库最新代码
