@@ -12,7 +12,7 @@ tags = [
 +++
 
 ## 引言
-本文尝试对Navila论文进行复现,引用如下：  
+本文尝试对Navila论文进行复现，引用如下：  
 [Paper Link](https://arxiv.org/abs/2412.04453)  
 [Project Link](https://github.com/AnjieCheng/NaVILA)
 
