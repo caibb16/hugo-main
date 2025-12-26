@@ -21,8 +21,93 @@ body::before {
     z-index: -1;
 }
 
+/* 响应式布局优化 - 让内容在不同屏幕比例下都能铺满宽度 */
+.container {
+    /* 移除最大宽度限制，让内容能够扩展到屏幕宽度 */
+    max-width: none !important;
+    width: 100% !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
 
+    /* 在大屏幕上保持合理的最大宽度 */
+    @media (min-width: 1920px) {
+        max-width: 1800px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
 
+    /* 在超大屏幕上进一步扩展 */
+    @media (min-width: 2560px) {
+        max-width: 2400px !important;
+    }
+
+    /* 在中等屏幕上优化间距 */
+    @media (max-width: 1024px) {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+
+    /* 在小屏幕上保持最小间距 */
+    @media (max-width: 768px) {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+}
+
+/* 优化侧边栏在不同屏幕下的显示 */
+.left-sidebar,
+.right-sidebar {
+    /* 在超宽屏幕上调整侧边栏宽度 */
+    @media (min-width: 1920px) {
+        --left-sidebar-max-width: 300px !important;
+        --right-sidebar-max-width: 350px !important;
+    }
+
+    @media (min-width: 2560px) {
+        --left-sidebar-max-width: 400px !important;
+        --right-sidebar-max-width: 450px !important;
+    }
+}
+
+/* 优化文章列表在宽屏幕下的布局 */
+.article-list {
+    /* 在超宽屏幕上使用多列布局 */
+    @media (min-width: 1920px) {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 30px;
+    }
+
+    @media (min-width: 2560px) {
+        grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+        gap: 40px;
+    }
+}
+
+/* 优化文章卡片在宽屏幕下的显示 */
+.article-list article {
+    /* 在超宽屏幕上调整卡片大小 */
+    @media (min-width: 1920px) {
+        margin-bottom: 30px;
+    }
+
+    @media (min-width: 2560px) {
+        margin-bottom: 40px;
+    }
+}
+
+/* 优化主内容区域 */
+.main {
+    /* 在超宽屏幕上调整内容宽度 */
+    @media (min-width: 1920px) {
+        flex: 1;
+        max-width: calc(100% - 700px); /* 减去左右侧边栏宽度 */
+    }
+
+    @media (min-width: 2560px) {
+        max-width: calc(100% - 900px);
+    }
+}
 
 /* 修改主内容区域背景 */
 .main-container {
@@ -136,4 +221,49 @@ body::before {
 [data-scheme="dark"] blockquote {
     background-color: rgba(255, 255, 255, 0.05);
     border-left-color: var(--accent-color);
+}
+
+/* 暗色模式下音乐播放器界面 */
+:root[data-scheme="dark"] .widget.music-player .aplayer {
+    background: #23272e !important;
+    color: #e0e0e0 !important;
+    border: 1px solid #333a45 !important;
+}
+:root[data-scheme="dark"] .widget.music-player .aplayer .aplayer-lrc {
+    background: transparent !important;
+    color: #b0b8c1 !important;
+}
+:root[data-scheme="dark"] .widget.music-player .aplayer .aplayer-info {
+    background: transparent !important;
+    color: #e0e0e0 !important;
+}
+:root[data-scheme="dark"] .widget.music-player .aplayer .aplayer-bar-wrap {
+    background: #2c313a !important;
+}
+:root[data-scheme="dark"] .widget.music-player .aplayer .aplayer-bar .aplayer-played {
+    background: #6bc1ff !important;
+}
+:root[data-scheme="dark"] .widget.music-player .aplayer .aplayer-list {
+    background: #23272e !important;
+    color: #b0b8c1 !important;
+    border-top: 1px solid #333a45 !important;
+}
+:root[data-scheme="dark"] .widget.music-player .aplayer .aplayer-list-light {
+    background: #2c313a !important;
+}
+:root[data-scheme="dark"] .widget.music-player .aplayer .aplayer-list-title {
+    color: #b0b8c1 !important;
+}
+:root[data-scheme="dark"] .widget.music-player .aplayer .aplayer-list-cur {
+    background: #34495e !important;
+    color: #fff !important;
+}
+:root[data-scheme="dark"] .widget.music-player .aplayer .aplayer-icon {
+    color: #b0b8c1 !important;
+}
+:root[data-scheme="dark"] .widget.music-player .aplayer .aplayer-volume-bar {
+    background: #444a55 !important;
+}
+:root[data-scheme="dark"] .widget.music-player .aplayer .aplayer-volume {
+    background: #6bc1ff !important;
 }

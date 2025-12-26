@@ -184,7 +184,7 @@ bash scripts/eval/r2r.sh /data/code/seu004/czd/NaVILA/navila-llama3-8b-8f 4 0 "2
 ps aux | grep "run.py.*navila"
 # 停止当前评估
 pkill -9 -f "run.py.*navila"
-# 汇总并查看得分
+# 完成评估后汇总并查看得分
 python scripts/eval_jsons.py ./eval_out/navila-llama3-8b-8f/VLN-CE-v1/val_unseen NUM_CHUNKS
 ```
 ### Debug
@@ -211,6 +211,6 @@ mp3d数据及下载比较麻烦，使用官方给的脚本不知道为什么只�
 ### 实验结果
 * 运行r2r.sh脚本后，终端会实时可视化VLM的action指令![终端显示](image3.png)
 * 并会在`valuation/eval_out/navila-llama3-8b-8f/VLN-CE-v1/val_unseen/videos`路径下生成大量评估视频，视频左下方为导航指令，视频名称中的spl是导航中常用的评估指标，基准值为1/0代表是否成功，再乘上一个最短路径与实际路径比值。  
-每个视频是一个episode，会选取一个场景进行评估，解压R2R数据集下的val_unseen.json.gz文件后可以看到episodes总共有1838个，8张显卡大概要跑2～3小时，如果不需要查看最终分数的话不跑完也可以。
-* 其中一个spl=1的episode如下：
+每个视频是一个episode，会选取一个场景进行评估，解压R2R数据集下的val_unseen.json.gz文件后可以看到episodes总共有1838个，8张显卡大概要跑2～3小时，如果不查看最终分数的话不跑完也可以。
+* 其中一个 spl=1 的episode如下：  
 <video src="episode=53-ckpt=0-spl=1.00.mp4" controls="controls" width="700"></video>

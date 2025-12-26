@@ -6,8 +6,20 @@ categories:
     - 工具
 tags: ['Turtlebot3', 'ROS2', 'SLAM','命令速查']
 ---
-
-## 启动 TurtleBot3 基础世界仿真
+## 前置准备
+运行相关命令前需先安装对应功能包，如turtlebot3、slam_toolbox、cartographer、nav2等。  
+若从源码编译安装，请确保已编译对应功能包。
+编译命令如下：
+```bash
+cd ~/colcon_ws
+colcon build --symlink-install --packages-select <package_name>
+```
+source命令如下，可添加至~/.bashrc文件中：
+```bash
+source ~/colcon_ws/install/setup.bash
+source /usr/share/gazebo/setup.sh
+```
+## 启动脚本，加载TurtleBot3及世界模型
 ```bash
 ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py
 ```
@@ -33,5 +45,8 @@ ros2 run turtlebot3_teleop teleop_keyboard
 ```bash
 ros2 run nav2_map_server map_saver_cli -f ~/map
 ```
-
+## 启动nav2导航
+```bash
+ros2 launch turtlebot3_navigation2 navigation2.launch.py map:=$HOME/map.yaml
+```
 
