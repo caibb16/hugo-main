@@ -7,7 +7,8 @@ categories = [
 ]
 tags = [
     "Navila",
-    "论文复现"
+    "论文复现"，
+    "大模型"
 ]
 +++
 
@@ -31,7 +32,7 @@ NaVILA: Legged Robot Vision-Language-Action  Model for Navigation
     * 将历史和当前观测的标记与导航指令整合，构建导航任务提示
     * 从人类视频中收集轨迹-指令对以增强在连续空间的导航能力
 
-训练过程如下图：
+训练过程如下图：  
 ![Navila控制策略](image2.png)
 
 2. 视觉移动策略
