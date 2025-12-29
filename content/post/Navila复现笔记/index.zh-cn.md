@@ -7,7 +7,7 @@ categories = [
 ]
 tags = [
     "Navila",
-    "论文复现"，
+    "论文复现",
     "大模型"
 ]
 +++
