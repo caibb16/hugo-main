@@ -384,6 +384,10 @@ hasNext() 判断当前指针是否有元素，next() 获取当前指向的元素
    * 引用构造方法：类名::new
 ## 异常
 ### 异常的分类
+1. 检查异常（编译时异常）：在编译阶段被检查的异常，必须处理，否则编译不通过，如IOException、SQLException
+2. 非检查异常（运行时异常）：在运行阶段被检查的异常，不强制处理，如NullPointerException、ArrayIndexOutOfBoundsException
+### 异常的处理
+1. try-catch-finally语句
 
 
 
