@@ -131,7 +131,7 @@ $$
 1. 在第 k 步消元之前, 从第 k 列位于对角线以下的元素中选绝对值最大者作为主元,然后进行消元。
 2. 使用回代法求解上三角形方程组 $Ux = y$，其中 $U$ 为消元后的系数矩阵，$y$ 为更新后的常数向量。
 ### 三对角方程组的追赶法
-设三对角方程组 $Ax = b$ 为：
+设三对角方程组为：
 $$
 \begin{bmatrix}
 b_1 & c_1 & 0 & \cdots & 0 \\
@@ -157,10 +157,59 @@ d_n
 \end{bmatrix}
 $$
 则追赶法求解步骤为：
-1. 消元过程：$\beta_1 = b_1, y_1 = d_1$  
-对 $i = 2, 3, \cdots, n$，计算
-$$ l_i = \frac{a_i}{\beta_{i-1}}, \quad \beta_i = b_i - l_i c_{i-1}, \quad y_i = d_i - l_i y_{i-1} $$
-2. 回代过程：计算
-$$ x_n = \frac{y_n}{\beta_n} $$
-对 $i = n-1, n-2, \cdots, 1$，依次计算
-$$ x_i = \frac{y_i - c_i x_{i+1}}{\beta_i} $$
+1. 消元过程：
+$$
+\begin{cases}
+\beta_1 = b_1, y_1 = d_1 \\
+l_i = \frac{a_i}{\beta_{i-1}}, \quad \beta_i = b_i - l_i c_{i-1}, \quad y_i = d_i - l_i y_{i-1}  \quad i = 2, 3, \cdots, n 
+\end{cases}
+$$
+2. 回代过程：  
+得到同解三角方程组为
+$$
+\begin{bmatrix}
+\beta_1 & c_1 & 0 & \cdots & 0 \\
+0 & \beta_2 & c_2 & \cdots & 0 \\
+0 & 0 & \beta_3 & \cdots & 0 \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & 0 & 0 & \beta_n
+\end{bmatrix}
+\begin{bmatrix}
+x_1 \\
+x_2 \\
+x_3 \\
+\vdots \\
+x_n
+\end{bmatrix}=
+\begin{bmatrix}
+y_1 \\
+y_2 \\
+y_3 \\
+\vdots \\
+y_n
+\end{bmatrix}
+$$
+计算
+$$ 
+\begin{cases}
+x_n = \frac{y_n}{\beta_n} \\
+x_i = \frac{y_i - c_i x_{i+1}}{\beta_i} \quad i = n-1, n-2, \cdots, 1
+\end{cases} 
+$$
+### 向量范数
+1. 定义：非负性、齐次性、三角不等式
+2. 常用向量范数：
+    * $L_1$ 范数：$||x||_ 1 = \sum\limits_{i=1}^{n} |x_i|$
+    * $L_{\infty}$ 范数：$||x||_ {\infty} = \max\limits_{1 \leq i \leq n} |x_i|$
+    * $L_2$ 范数：$||x||_ 2 =\sqrt{ \sum\limits_{i=1}^{n} |x_i|^2 }$
+    
+### 矩阵范数
+1. 算子范数：$||A|| = \max\limits_{x \neq 0} \frac{||Ax||}{||x||}$
+2. 谱半径：$\rho(A) = \max\limits_{1 \leq i \leq n} |\lambda_i|$，其中 $\lambda_i$ 为矩阵 $A$ 的特征值
+3. 常用矩阵范数：
+    * $L_1$ 范数：$||A||_ 1 = \max\limits_{1 \leq j \leq n} \sum\limits_{i=1}^{n} |a_{ij}|$
+    * $L_{\infty}$ 范数：$||A||_ {\infty} = \max\limits_{1 \leq i \leq n} \sum\limits_{j=1}^{n} |a_{ij}|$
+    * $L_2$ 范数：$||A||_ 2 = \sqrt{\rho(A^T A)}$
+4. 谱半径与2范数的关系：$\rho(A) \leq ||A||_ 2$  
+如果 $A$ 是对称矩阵，则 $\rho(A) = ||A||_ 2$
+  
