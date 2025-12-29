@@ -387,7 +387,10 @@ hasNext() 判断当前指针是否有元素，next() 获取当前指向的元素
 1. 检查异常（编译时异常）：在编译阶段被检查的异常，必须处理，否则编译不通过，如IOException、SQLException
 2. 非检查异常（运行时异常）：在运行阶段被检查的异常，不强制处理，如NullPointerException、ArrayIndexOutOfBoundsException
 ### 异常的处理
-1. try-catch-finally语句
+1. try-catch语句
+   * try块：包含可能抛出异常的代码
+   * catch块：捕获并处理异常，可以有多个catch块处理不同类型的异常。如果catch没有捕获到异常，异常会继续向上抛出
+   
 
 
 
