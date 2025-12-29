@@ -137,7 +137,6 @@ $$
 b_1 & c_1 & 0 & \cdots & 0 \\
 a_2 & b_2 & c_2 & \cdots & 0 \\
 0 & a_3 & b_3 & \cdots & 0 \\
-0 & a_3 & b_3 & \cdots & 0 \\
 \vdots & \vdots & \vdots & \ddots & \vdots \\
 0 & 0 & 0 & a_n & b_n
 \end{bmatrix}
