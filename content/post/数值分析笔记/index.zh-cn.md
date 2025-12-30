@@ -206,9 +206,140 @@ $$
 1. 算子范数：$||A|| = \max\limits_{x \neq 0} \frac{||Ax||}{||x||}$
 2. 谱半径：$\rho(A) = \max\limits_{1 \leq i \leq n} |\lambda_i|$，其中 $\lambda_i$ 为矩阵 $A$ 的特征值
 3. 常用矩阵范数：
-    * $L_1$ 范数：$||A||_ 1 = \max\limits_{1 \leq j \leq n} \sum\limits_{i=1}^{n} |a_{ij}|$
-    * $L_{\infty}$ 范数：$||A||_ {\infty} = \max\limits_{1 \leq i \leq n} \sum\limits_{j=1}^{n} |a_{ij}|$
-    * $L_2$ 范数：$||A||_ 2 = \sqrt{\rho(A^T A)}$
+    * $L_1$ 范数：$||A||_ 1 = \max\limits_{1 \leq j \leq n} \sum\limits_{i=1}^{n} |a_{ij}| \quad$ 按列求和的最大值
+    * $L_{\infty}$ 范数：$||A||_ {\infty} = \max\limits_{1 \leq i \leq n} \sum\limits_{j=1}^{n} |a_{ij}| \quad$ 按行求和的最大值
+    * $L_2$ 范数：$||A||_ 2 = \sqrt{\rho(A^T A)}$  
+
+    条件数：$cond(A) = ||A|| \cdot ||A^{-1}||$
 4. 谱半径与2范数的关系：$\rho(A) \leq ||A||_ 2$  
 如果 $A$ 是对称矩阵，则 $\rho(A) = ||A||_ 2$
-  
+
+### 迭代法求解线性方程组
+将线性方程组 Ax = b 写为分量形式：
+$$
+\begin{cases}
+a_{11} x_1 + a_{12} x_2 + \cdots + a_{1n} x_n = b_1 \\
+a_{21} x_1 + a_{22} x_2 + \cdots + a_{2n} x_n = b_2 \\
+\quad \quad \quad \vdots \\
+a_{n1} x_1 + a_{n2} x_2 + \cdots + a_{nn} x_n = b_n
+\end{cases}
+$$
+从第 $i$ 个方程中解出 $x_i$，得到如下同解方程组：
+$$
+\begin{cases}
+x_1 = (b_1-a_{12}x_2-a_{13} x_3 \cdots - a_{1n} x_n)/a_{11} \\
+x_2 = (b_2 - a_{21} x_1 - a_{23} x_3 - \cdots - a_{2n} x_n)/a_{22} \\
+\quad \quad \quad \vdots \\
+x_n = (b_n - a_{n1} x_1 - a_{n2} x_2 - \cdots - a_{n,n-1} x_{n-1})/a_{nn}
+\end{cases}
+$$
+1. Jacobi 迭代格式：
+$$
+\begin{cases}
+x_1^{(k+1)} = (b_1 - a_{12} x_2^{(k)} - a_{13} x_3^{(k)} - \cdots - a_{1n} x_n^{(k)})/a_{11} \\
+x_2^{(k+1)} = (b_2 - a_{21} x_1^{(k)} - a_{23} x_3^{(k)} - \cdots - a_{2n} x_n^{(k)})/a_{22} \\
+\quad \quad \quad \vdots \\
+x_n^{(k+1)} = (b_n - a_{n1} x_1^{(k)} - a_{n2} x_2^{(k)} - \cdots - a_{n,n-1} x_{n-1}^{(k)})/a_{nn}
+\end{cases}
+$$
+2. Gauss-Seidel 迭代格式：  
+用新分量替换旧分量
+$$
+\begin{cases}
+x_1^{(k+1)} = (b_1 - a_{12} x_2^{(k)} - a_{13} x_3^{(k)} - \cdots - a_{1n} x_n^{(k)})/a_{11} \\
+x_2^{(k+1)} = (b_2 - a_{21} x_1^{(k+1)} - a_{23} x_3^{(k)} - \cdots - a_{2n} x_n^{(k)})/a_{22} \\
+\quad \quad \quad \vdots \\
+x_n^{(k+1)} = (b_n - a_{n1} x_1^{(k+1)} - a_{n2} x_2^{(k+1)} - \cdots - a_{n,n-1} x_{n-1}^{(k+1)})/a_{nn}
+\end{cases}
+$$
+3. SOR 迭代格式：  
+第k+1次迭代近似值和第k次迭代近似值的加权平均
+$$
+\begin{cases}
+x_1^{(k+1)} = (1-\omega) x_1^{(k)} + \omega (b_1 - a_{12} x_2^{(k)} - a_{13} x_3^{(k)} - \cdots - a_{1n} x_n^{(k)}) /a_{11} \\
+x_2^{(k+1)} = (1-\omega) x_2^{(k)} + \omega (b_2 - a_{21} x_1^{(k+1)} - a_{23} x_3^{(k)} - \cdots - a_{2n} x_n^{(k)}) /a_{22} \\
+\quad \quad \quad \vdots \\
+x_n^{(k+1)} = (1-\omega) x_n^{(k)} + \omega (b_n - a_{n1} x_1^{(k+1)} - a_{n2} x_2^{(k+1)} - \cdots - a_{n,n-1} x_{n-1}^{(k+1)}) /a_{nn}
+\end{cases}
+$$
+### 迭代格式的收敛性
+1. 迭代格式收敛的充分必要条件：迭代矩阵 $B$ 的谱半径 $\rho(B) < 1$
+2. Jacobi 迭代格式的收敛性:
+    * 谱半径判断：迭代矩阵特征方程为 $|\lambda D+L+U| = 0$ (系数矩阵的对角线乘 $\lambda$ )
+    * 充分条件判断：如果系数矩阵 $A$ 严格对角占优，则 Jacobi 迭代格式收敛。
+3. Gauss-Seidel 迭代格式的收敛性:
+    * 谱半径判断：迭代矩阵特征方程为 $|\lambda (D+L)+U| = 0$ (系数矩阵的下三角乘 $\lambda$ )
+    * 充分条件判断：如果系数矩阵 $A$ 严格对角占优，则 Gauss-Seidel 迭代格式收敛。
+4. SOR 迭代格式的收敛性:
+    * 收敛的必要条件：$0 < \omega < 2$ 
+## 多项式插值
+### 拉格朗日插值多项式
+1. 定义：设插值节点为 $x_0, x_1, \cdots, x_n$，对应的函数值为 $f(x_0), f(x_1), \cdots, f(x_n)$，若存在一个次数不超过 $n$ 的多项式 $p_n(x)$，使得
+$$p_n(x_i) = f(x_i), \quad i = 0, 1, \cdots, n$$
+成立，则称 $p_n(x)$ 为函数 $f(x)$ 的 $n$ 次插值多项式。
+
+2. 定理：满足上述条件的 $n$ 次多项式 $p_n(x)$ 存在且唯一。
+3. 基本插值多项式：定义 $n+1$ 个基本插值多项式 $l_k(x)$，满足
+$$
+l_k(x_j) = \begin{cases}1, & j = k \\ 0, & j \neq k \end{cases}
+$$
+则 $l_k(x)$ 可表示为：
+$$
+l_k(x) = \prod\limits_{ \substack{i=0  \\  i \neq k}}^{n} \frac{x - x_i}{x_k - x_i}
+$$
+4. 利用基本插值多项式， $n$ 次 Lagrange 插值多项式为：
+$$
+L_n(x) = \sum\limits_{k=0}^{n} f(x_k) l_k(x)= \sum\limits_{k=0}^{n} f(x_k) \prod\limits_{ \substack{i=0  \\  i \neq k}}^{n} \frac{x - x_i}{x_k - x_i}
+$$
+$l_0(x), l_1(x), \cdots, l_n(x)$ 线性无关，称为 $n$ 次 Lagrange 插值基函数。  
+5. 插值余项及误差估计：若函数 $f(x)$ 在区间 $[a, b]$ 上具有 $n+1$ 阶连续导数，则对任意 $x \in [a, b]$，存在 $\xi \in (a, b)$，使得
+$$
+R_n(x)=f(x) - L_n(x) = \frac{f^{(n+1)}(\xi)}{(n+1)!} \omega_{n+1}(x)
+$$
+其中 $\omega_{n+1}(x) = (x - x_0)(x - x_1) \cdots (x - x_n)$。
+### Newton 插值多项式
+1. 差商的定义：
+$$
+f[x_i] = f(x_i)
+$$
+$$
+f[x_i, x_{i+1}, \cdots, x_{i+k}] = \frac{f[x_{i+1}, \cdots, x_{i+k}] - f[x_i, \cdots, x_{i+k-1}]}{x_{i+k} - x_i}
+$$
+2. $n$ 次 Newton 插值多项式定义为：
+$$
+L_n(x) = f[x_0] + f[x_0, x_1](x - x_0) + f[x_0, x_1, x_2](x - x_0)(x - x_1) \\+ \cdots + f[x_0, x_1, \cdots, x_n](x - x_0)(x - x_1) \cdots (x - x_{n-1})
+$$
+3. $k$ 阶差商与 $k$ 阶导数的关系：
+$$
+f[x_0, x_1, \cdots, x_k] = \frac{f^{(k)}(\eta)}{k!}, \quad \eta \in (\min(x_0, \cdots, x_k), \max(x_0, \cdots, x_k))
+$$
+### Hermite 插值多项式
+1. 定义：给定$n+1$ 个互异节点 $x_0, x_1, \cdots, x_n$上的函数值和直到$m_i$阶的导数值，令 $m = \sum \limits_0^n(m_i+1)-1$，
+若存在一个次数不超过 $m$ 的多项式 $H_m(x)$，使得
+$$
+\begin{cases}
+H_m^{(j)}(x_i) = f^{(j)}(x_i), \quad j = 0, 1, \cdots, m_i \\
+i = 0, 1, \cdots, n
+\end{cases}
+$$
+则称 $H_m(x)$ 为函数 $f(x)$ 的 Hermite 插值多项式。  
+
+2. 重节点插值：将上述插值问题看成是在 $m + 1$ 不同节点上的 Newton 插值, 然后取极限就成为 $n + 1$ 不同节点上的 Hermite 插值, 称之为重节点插值。  
+
+$m$次 Hermite 插值多项式为：
+$$
+H_m(x) = f[x_0] + f[x_0, x_0](x - x_0) + f[x_0, x_0, x_1](x - x_0)^2 \\+
+ \cdots + f[\underbrace{x_0, x_0, \cdots, x_0}_{m_0+1}, \underbrace{x_1, x_1, \cdots, x_1}_{m_1+1}, \cdots, \underbrace{x_n, x_n, \cdots, x_n}_{m_n+1}](x - x_0)^{m_0+1}(x - x_1)^{m_1+1} \cdots (x - x_n)^{m_n}
+$$
+重节点差商公式：
+$$
+f[\underbrace{x_i, x_i, \cdots, x_i}_{k+1}] = \frac{f^{(k)}(x_i)}{k!} \\
+f[x_0, x_0,x_1] = \frac{f[x_0, x_1] - f[x_0, x_0]}{x_1 - x_0} 
+$$
+插值余项为：
+$$
+R_m(x) = f(x) - H_m(x) = \frac{f^{(m+1)}(\xi)}{(m+1)!} (x - x_0)^{m_0+1}(x - x_1)^{m_1+1} \cdots (x - x_n)^{m_n+1}
+$$
+### 3次样条插值函数
+1. 定义：每段小区间上用3次多项式进行插值，且在区间上具有连续二阶导数，称为3次样条插值函数。
+2. 求法：
