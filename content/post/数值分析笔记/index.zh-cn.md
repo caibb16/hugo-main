@@ -3,7 +3,9 @@ date = '2025-12-29T12:32:33+08:00'
 draft = false
 title = '数值分析笔记'
 description = '期末救急用，记录一些考点公式'
-categories = [
+$$
+\left\{ e[x_j,x_{j+1}]-(\frac{1}{3}M_j+\frac{1}{6}M_{j+1})h_j \right\}
+$$
     "笔记"
 ]
 tags = [
@@ -341,5 +343,118 @@ $$
 R_m(x) = f(x) - H_m(x) = \frac{f^{(m+1)}(\xi)}{(m+1)!} (x - x_0)^{m_0+1}(x - x_1)^{m_1+1} \cdots (x - x_n)^{m_n+1}
 $$
 ### 3次样条插值函数
-1. 定义：每段小区间上用3次多项式进行插值，且在区间上具有连续二阶导数，称为3次样条插值函数。
-2. 求法：
+1. 定义：每段小区间上用3次多项式进行插值，且在区间上具有连续二阶导数，称为3次样条插值函数。  
+要求3次样条插值函数 $S(x)$，每个小区间要确定4个参数，共要确定 $4n$ 个参数。  
+在每个节点处满足下面的连续性条件:  
+$S(x_j-0) = S(x_j+0),\quad S'(x_j-0) = S'(x_j+0),\quad S''(x_j-0) = S''(x_j+0), \quad j = 1, 2, \cdots, n-1$  
+共有 $3(n-1)$ 个条件，加上$n+1$ 个插值条件，共有 $4n - 2$ 个条件，还要加上2个条件，才能确定 $4n$ 个参数。  
+常用的附加条件有：
+* (边界条件) 已知两端点的一阶导数, 即 $S'(x_0) = f'(x_0), \quad S'(x_n) = f'(x_n)$
+* (边界条件) 已知两端点的二阶导数, 即 $S''(x_0) = f''(x_0), \quad S''(x_n) = f''(x_n)$
+若令 $S''(x_0) = 0, \quad S''(x_n) = 0$，则称为自然边界条件。
+* (连接条件) 要求 $S'''(x)$ 在 $x_1$ 和 $x_{n-1}$ 处连续，即 $S'''(x_1-0) = S'''(x_1+0), \quad S'''(x_{n-1}-0) = S'''(x_{n-1}+0)$
+2. 求法：  
+
+$S(x)=y_j+\{f[x_j,x_{j+1}]-(\frac{1}{3}M_j+\frac{1}{6}M_{j+1})h_j\}(x-x_j)+ \frac{M_j}{2}(x - x_j)^2 + \frac{M_{j+1} - M_j}{6h_j}(x - x_j)^3, \quad x \in [x_j, x_{j+1}]，j=0,1,⋯,n-1$
+
+其中 $h_j = x_{j+1} - x_j$，$M_j = S''(x_j)$
+
+对于边界条件 $S'(x_0) = f'(x_0), \quad S'(x_n) = f'(x_n)$，可列出如下方程组求解 $M_j$：
+$$\begin{bmatrix}
+2 & 1 \\
+\mu_1 & 2 & \lambda_1 \\
+& \mu_2 & 2 & \lambda_2 \\
+& & \ddots & \ddots & \ddots \\
+& & & \mu_{n-1} & 2 & \lambda_{n-1} \\
+& & & & 1 & 2
+\end{bmatrix}
+\begin{bmatrix}
+M_0 \\
+M_1 \\
+M_2 \\
+\vdots \\
+M_{n-1} \\
+M_n
+\end{bmatrix} =
+\begin{bmatrix}
+d_0 \\
+d_1 \\
+d_2 \\
+\vdots \\
+d_{n-1} \\
+d_n
+\end{bmatrix}
+$$
+对于边界条件 $S''(x_0) = f''(x_0), \quad S''(x_n) = f''(x_n)$，可列出如下方程组求解 $M_j$：
+$$\begin{bmatrix}
+2 & \lambda_1 \\
+\mu_2 & 2 & \lambda_2 \\
+& \mu_3 & 2 & \lambda_3 \\
+& & \ddots & \ddots & \ddots \\
+& & & \mu_{n-2} & 2 & \lambda_{n-2} \\
+& & & & \mu_{n-1} & 2
+\end{bmatrix}
+\begin{bmatrix}
+M_1 \\
+M_2 \\
+M_3 \\
+\vdots \\
+M_{n-2} \\ 
+M_{n-1}
+\end{bmatrix} =
+\begin{bmatrix}
+d_1-\mu_1 f''(x_0) \\
+d_2 \\
+d_3 \\
+\vdots \\
+d_{n-2} \\
+d_{n-1}-\lambda_{n-1} f''(x_n)
+\end{bmatrix}
+$$
+其中
+$$\mu_j = \frac{h_{j-1}}{h_{j-1} + h_j}, \quad \lambda_j = \frac{h_j}{h_{j-1} + h_j}=1-\mu_j, \quad j = 1, 2, \cdots, n-1$$
+$$d_0 = 6f[x_0,x_0,x_1], \quad d_n = 6f[x_{n-1},x_n,x_n]$$
+$$d_j = 6 \left( f[x_{j-1}, x_j, x_{j+1}] \right), \quad j = 1, 2, \cdots, n-1$$
+## 多项式逼近
+### 最佳一致逼近
+* 连续函数的范数：设$f\in C[a,b]$，记
+$$
+||f||_1 = \int_a^b |f(x)| dx,\quad
+||f||_{\infty} = \max_{a \leq x \leq b} |f(x)|,\quad
+||f||_2 = \sqrt{ \int_a^b |f(x)|^2 dx } $$
+* 最佳一致逼近多项式  
+定义：设 $f(x) \in C[a,b]$，$M_n$ 为次数不超过 $n$ 的任意多项式集合，若$\exists p_n\in M_n$，使得对任意 $q_n \in M_n$，有
+$$||f - p_n||_{\infty} \leq ||f - q_n||_{\infty}$$
+则称 $p_n(x)$ 为函数 $f(x)$ 在区间 $[a,b]$ 上的$n$次最佳一致逼近多项式。
+* 一次最佳一致逼近多项式求法：  
+设 $p_1(x) = c_0 + c_1 x$，若 $f''(x)$ 在 $(a, b)$ 内存在且保号，则 $f(x) − p_1 (x)$ 在 [a, b] 内有 3 个交错偏差点 $a, x_1 , b$, 于是可得
+$$\begin{cases}
+f(a) - p_1(a) = -[f(x_1)-p_1(x_1)] = f(b)-p_1(b) \\
+f'(x_1) - p_1'(x_1) = 0
+\end{cases}$$
+* 最佳平方逼近多项式  
+定义：设$X$为内积空间， $f \in X$，$M$ 为$X$的子空间，$\varphi_0,\varphi_1,\cdots,\varphi_m$为$M$的一组基，若$\exists \varphi\in M_n$，使得对任意 $\psi \in M$，有
+$$||f - \varphi|| \leq ||f - \psi||$$
+则称 $ \varphi$ 是 $f$ 在 $M$ 中的最佳平方逼近元
+* 最佳平方逼近多项式求法：  
+如果$\varphi_i(x)=x^i(i=0,1,\cdots,m)$，设 $p(x) = \sum\limits_{i=0}^{m} c_i \varphi_i(x)$，则 $p(x)$ 称为 $f(x)$ 在 $[a, b]$ 上的 $m$ 次最佳平方逼近多项式  
+$c_0 , c_1 , \cdots , c_m$ 是下面的 (正规) 方程组的解:
+$$\begin{bmatrix}
+(\varphi_0, \varphi_0) & (\varphi_0, \varphi_1) & \cdots & (\varphi_0, \varphi_m) \\
+(\varphi_1, \varphi_0) & (\varphi_1, \varphi_1) & \cdots & (\varphi_1, \varphi_m) \\
+\vdots & \vdots & \ddots & \vdots \\
+(\varphi_m, \varphi_0) & (\varphi_m, \varphi_1) & \cdots & (\varphi_m, \varphi_m)
+\end{bmatrix}
+\begin{bmatrix}
+c_0 \\
+c_1 \\
+\vdots \\
+c_m
+\end{bmatrix} =
+\begin{bmatrix}
+(f, \varphi_0) \\
+(f, \varphi_1) \\
+\vdots \\
+(f, \varphi_m)
+\end{bmatrix}$$
+其中 $(f, g) = \int_a^b f(x) g(x) dx$ 为内积。
