@@ -3,9 +3,7 @@ date = '2025-12-29T12:32:33+08:00'
 draft = false
 title = '数值分析笔记'
 description = '期末救急用，记录一些考点公式'
-$$
-\left\{ e[x_j,x_{j+1}]-(\frac{1}{3}M_j+\frac{1}{6}M_{j+1})h_j \right\}
-$$
+categories = [
     "笔记"
 ]
 tags = [
