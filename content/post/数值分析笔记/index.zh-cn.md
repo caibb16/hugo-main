@@ -456,3 +456,154 @@ c_m
 (f, \varphi_m)
 \end{bmatrix}$$
 其中 $(f, g) = \int_a^b f(x) g(x) dx$ 为内积。
+* 超定方程组的最小二乘解：  
+设超定方程组为 $Ax = b$，其中 $A$ 为 $m \times n$ 矩阵，$m > n$，则其最小二乘解 $x^*$ 满足正规方程组
+$$A^T A x = A^T b$$
+* 离散数据的最佳平方逼近多项式：  
+给定离散数据点 $(x_i, y_i), i = 0, 1, \cdots, m$，设 $p(x) = \sum\limits_{i=0}^{m} c_i \varphi_i(x)$，如果$\varphi_k(x)=x^k$，则 $p(x)$ 称为数据点的 $m$ 次最小二乘拟合多项式。
+记
+$$
+\mathbf{\varphi}_k =
+\begin{bmatrix}
+\varphi_k(x_0) \\
+\varphi_k(x_1) \\
+\vdots \\
+\varphi_k(x_m)
+\end{bmatrix}, \quad
+\mathbf{y} =
+\begin{bmatrix}
+y_0 \\
+y_1 \\
+\vdots \\
+y_m
+\end{bmatrix}
+$$  
+$c_0 , c_1 , \cdots , c_n$ 是下面的 (正规) 方程组的解:
+$$\begin{bmatrix}
+(\varphi_0, \varphi_0) & (\varphi_0, \varphi_1) & \cdots & (\varphi_0, \varphi_m) \\
+(\varphi_1, \varphi_0) & (\varphi_1, \varphi_1) & \cdots & (\varphi_1, \varphi_m) \\
+\vdots & \vdots & \ddots & \vdots \\
+(\varphi_m, \varphi_0) & (\varphi_m, \varphi_1) & \cdots & (\varphi_m, \varphi_m)
+\end{bmatrix}
+\begin{bmatrix}
+c_0 \\
+c_1 \\
+\vdots \\
+c_m
+\end{bmatrix} =
+\begin{bmatrix}
+(y, \varphi_0) \\
+(y, \varphi_1) \\
+\vdots \\
+(y, \varphi_m)
+\end{bmatrix}$$
+
+## 数值积分与数值微分
+### 插值型求积公式
+1. 定义  
+设有计算定积分 $I(f) = \int_a^b f(x) dx$ 的求积公式
+$$I_n(f) = \sum\limits_{k=0}^{n} A_k f(x_k)$$
+如果求积系数 $A_k=\int_a^b l_k(x) dx$，其中 $l_k(x)$ 为插值节点上的 Lagrange 基函数，则称 $I_n(f)$ 为插值型求积公式。  
+截断误差为：
+$$R_n(f) = I(f) - I_n(f) = \int_a^b \frac{f^{(n+1)}(\xi)}{(n+1)!}  \prod_{i=0}^n (x - x_i) dx, \quad \xi \in (a, b)$$
+若函数 $f(x)$ 在
+
+如果求积节点 $x_k$ 为等距节点，即
+$$x_k = a + k h, \quad h = \frac{b-a}{n}, \quad k = 0, 1, \cdots, n$$
+则称为 Newton-Cotes 求积公式，可写为：
+$$I_n(f) = (b-a) \sum\limits_{k=0}^{n} C_{n,k} f(x_k)$$
+2. 常用的等距节点插值型求积公式
+    * 梯形公式（n=1）：$$T(f) = \frac{b-a}{2} [f(a) + f(b)]$$
+    * Simpson 公式（n=2）：$$S(f) = \frac{b-a}{6} [f(a) + 4f\left(\frac{a+b}{2}\right) + f(b)]$$
+3. 代数精度  
+* 定义：设求积公式 $I_n(f)$ 对任意次数不超过 $m$ 的多项式均精确成立，即
+$$I(f) = I_n(f), \quad \forall f \in P_m$$
+而至少对一个 $m+1$ 次多项式不精确成立，则称求积公式 $I_n(f)$ 的代数精度为 $m$
+* 定理：
+    * 求积公式 $I_n(f)$ 的代数精度至少为 $n$ $\Leftrightarrow$
+该求积公式是插值型求积公式
+    * 求积公式 $I_n(f)$ 的代数精度为$m$ $\Leftrightarrow$
+求积公式对 $1,x,x^2,\cdots,x^m$ 均精确成立，而对 $x^{m+1}$ 不精确成立
+4. 截断误差表达式推导
+    * 梯形公式：$$R_T(f) = -\frac{(b-a)^3}{12} f''(\xi), \quad \xi \in (a, b)$$
+    * Simpson 公式：$$R_S(f) = -\frac{(b-a)^5}{2880} f^{(4)}(\xi), \quad \xi \in (a, b)$$
+### 复化求积公式
+1. 定义  
+将区间 $[a, b]$ 等分为 $n$ 个小区间，每个小区间上使用相同的求积公式进行积分近似，称为复化求积公式。  
+记 $h = \frac{b-a}{n},\quad x_k = a + k h,\quad k=0,1,\cdots,n$，则复化求积公式可写为：
+$$I(f) = \sum\limits_{k=0}^{n-1} \int_{x_k}^{x_{k+1}} f(x) dx$$
+2. 复化梯形公式
+$$T_n(f) = \sum\limits_{k=0}^{n-1} \frac{h}{2} [f(x_k) + f(x_{k+1})]$$
+截断误差
+$$I(f)-T_n(f) = -\frac{b-a}{12}h^2 f''(\eta), \quad \eta \in (a, b)$$
+$$I(f)-T_{2n}(f) \approx \frac{1}{3} [T_{2n}(f) - T_n(f)]$$
+递推关系式
+$$T_{2n}(f) = \frac{1}{2} [T_n(f) + h \sum\limits_{k=0}^{n-1} f\left(x_{k+\frac{1}{2}}\right)]$$
+其中$x_{k+\frac{1}{2}} = \frac{x_k + x_{k+1}}{2}$为新增的n个节点, $h=\frac{b-a}{n}$  
+3. 复化 Simpson 公式
+$$S_n(f) = \sum\limits_{k=0}^{n-1} \frac{h}{6} [f(x_{k}) + 4f(x_{k+\frac{1}{2}}) + f(x_{k+1})]$$
+截断误差
+$$I(f)-S_n(f) = -\frac{b-a}{180}\left(\frac{h}{2}\right)^4 f^{(4)}(\eta), \quad \eta \in (a, b)$$
+$$I(f)-S_{2n}(f) \approx \frac{1}{15} [S_{2n}(f) - S_n(f)]$$
+4. 复化求积公式的阶数
+$$h\rightarrow 0,\quad I(f)-I_n(f) = O(h^p)$$
+则称复化求积公式的阶数为 $p$，由上文可知复化梯形公式为 2 阶, 复化 Simpson 公式为 4 阶
+### Romberg 求积方法
+先利用复化梯形公式计算出一系列 $T_{2^k}(f)$，然后利用 
+$$S_n(f) \approx \frac{4}{3} T_{2n}(f) - \frac{1}{3} T_n(f)$$
+$$C_n(f) \approx \frac{16}{15} S_{2n}(f) - \frac{1}{15} S_n(f)$$
+$$R_n(f) \approx \frac{64}{63} C_{2n}(f) - \frac{1}{63} C_n(f)$$
+依次递推，直到满足精度
+$$I(f) - R_n(f) \approx \frac{1}{255} [R_{2n}(f) - R_{n}(f)] < \varepsilon$$
+### Gauss 求积公式
+1. 定义：适当选择求积节点 $x_k$，使得求积公式的代数精度达到 $(2n+1)$，称为 Gauss 求积公式，对应的求积点 $x_k$ 称为 Gauss 点。
+2. 区间[-1,1] 上的 Gauss 求积公式
+当 $n=0$ 时，1 点 Gauss 求积公式为：
+$$G_0(f) = 2 f(0)$$
+当 $n=1$ 时，2 点 Gauss 求积公式为：
+$$G_1(f) = f\left(-\frac{1}{\sqrt{3}}\right) + f\left(\frac{1}{\sqrt{3}}\right)$$
+当 $n=2$ 时，3 点 Gauss 求积公式为：
+$$G_2(f) = \frac{5}{9} f\left(-\sqrt{\frac{3}{5}}\right) + \frac{8}{9} f(0) + \frac{5}{9} f\left(\sqrt{\frac{3}{5}}\right)$$
+3. 区间[a,b] 上的 Gauss 求积公式  
+考虑区间 $[a, b]$ 上的积分
+$$\int_a^b f(x) dx$$
+通过变量代换
+$x = \frac{a+b}{2} + \frac{b-a}{2} t$
+将区间 $[a, b]$ 上的积分转化为区间 $[-1, 1]$ 上的积分，得到
+$$\int_a^b f(x) dx = \frac{b-a}{2} \int_{-1}^{1} f\left(\frac{a+b}{2} + \frac{b-a}{2} t\right) dt$$
+得到 Gauss 求积公式：
+$$I_n(f) =  \sum\limits_{k=0}^{n}\frac{b-a}{2} \tilde{A_k} f\left(\frac{a+b}{2} + \frac{b-a}{2} t_k\right)$$
+再令$$x_k = \frac{a+b}{2} + \frac{b-a}{2} t_k,\quad A_k = \frac{b-a}{2} \tilde{A_k}$$
+则有
+$$I_n(f) =  \sum\limits_{k=0}^{n} A_k f(x_k)$$
+4. 截断误差表达式  
+Gauss 求积公式的截断误差为：
+$$R_n(f) = \frac{f^{(2n+2)}(\xi)}{(2n+2)!} \int_a^b \left[ \prod_{k=0}^{n} (x - x_k) \right]^2 dx, \quad \xi \in (a, b)$$
+### 数值微分
+1. 差商代替导数值
+$$向前差商：f'(x_0) \approx \frac{f(x_0 + h) - f(x_0)}{h}$$
+$$向后差商：f'(x_0) \approx \frac{f(x_0) - f(x_0 - h)}{h}$$
+$$中心差商：f'(x_0) \approx \frac{f(x_0 + h) - f(x_0 - h)}{2h}$$
+
+2. 截断误差  
+将 $f(x_0 + h), f(x_0 − h)$ 在 $x_0$ 点 Taylor 展开, 可以得
+$$f'(x_0) - \frac{f(x_0 + h) - f(x_0)}{h} = -\frac{h}{2} f''(x_0)+O(h^2)$$
+$$f'(x_0) - \frac{f(x_0) - f(x_0 - h)}{h} = \frac{h}{2} f''(x_0)+O(h^2)$$
+$$f'(x_0) - \frac{f(x_0 + h) - f(x_0 - h)}{2h} = -\frac{h^2}{6} f^{(3)}(x_0)+O(h^3)$$
+3. 插值型求导公式  
+建立插值多项式 $p_n(x)$作为函数 $f(x)$ 的近似，取其导数 $p_n'(x)$ 作为 $f'(x)$ 的近似，称为插值型求导公式。
+## 常微分方程数值解
+### Euler 方法
+1. Euler 公式：
+$$y_{i+1} = y_i + h f(x_i, y_i), \quad i=0,1,\cdots,n-1$$
+其中 $h$ 为步长，$y_i$ 为 $y(x_i)$ 的近似值。  
+
+2. 梯形公式：
+$$y_{i+1} = y_i + \frac{h}{2} [f(x_i, y_i) + f(x_{i+1}, y_{i+1})], \quad i=0,1,\cdots,n-1$$
+3. 预测校正公式:
+$$\begin{cases}
+预测：\tilde{y}_{i+1} = y_i + h f(x_i, y_i) \\
+校正：y_{i+1} = y_i + \frac{h}{2} [f(x_i, y_i) + f(x_{i+1}, \tilde{y}_{i+1})]
+\end{cases}$$
+4. 局部截断误差：$R_{i+1} = y(x_{i+1}) - y(x_i) - \frac{h}{2} [f(x_i, y(x_i)) + f(x_{i+1}, y(x_i)+hf(x_i,y(x_i))]$
+5. 整体截断误差：$E(h)= \max\limits_{0 \leq i \leq n} |y(x_i) - y_i^{[h]}|$
