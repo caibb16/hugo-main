@@ -512,7 +512,7 @@ $$R_n(f) = I(f) - I_n(f) = \int_a^b \frac{f^{(n+1)}(\xi)}{(n+1)!}  \prod_{i=0}^n
 $$x_k = a + k h, \quad h = \frac{b-a}{n}, \quad k = 0, 1, \cdots, n$$
 则称为 Newton-Cotes 求积公式，可写为：
 $$I_n(f) = (b-a) \sum\limits_{k=0}^{n} C_{n,k} f(x_k)$$
-2. 常用的等距节点插值型求积公式
+2. 常用的等距节点插值型求积公式  
     * 梯形公式（n=1）：$$T(f) = \frac{b-a}{2} [f(a) + f(b)]$$
     * Simpson 公式（n=2）：$$S(f) = \frac{b-a}{6} [f(a) + 4f\left(\frac{a+b}{2}\right) + f(b)]$$
 3. 代数精度  
@@ -521,9 +521,10 @@ $$I(f) = I_n(f), \quad \forall f \in P_m$$
 而至少对一个 $m+1$ 次多项式不精确成立，则称求积公式 $I_n(f)$ 的代数精度为 $m$
 * 定理：
     * 求积公式 $I_n(f)$ 的代数精度至少为 $n$ $\Leftrightarrow$
-该求积公式是插值型求积公式
+该求积公式是插值型求积公式  
     * 求积公式 $I_n(f)$ 的代数精度为$m$ $\Leftrightarrow$
-求积公式对 $1,x,x^2,\cdots,x^m$ 均精确成立，而对 $x^{m+1}$ 不精确成立
+求积公式对 $1,x,x^2,\cdots,x^m$ 均精确成立，而对 $x^{m+1}$ 不精确成立  
+
 4. 截断误差表达式推导
     * 梯形公式：$$R_T(f) = -\frac{(b-a)^3}{12} f''(\xi), \quad \xi \in (a, b)$$
     * Simpson 公式：$$R_S(f) = -\frac{(b-a)^5}{2880} f^{(4)}(\xi), \quad \xi \in (a, b)$$
@@ -600,10 +601,65 @@ $$y_{i+1} = y_i + h f(x_i, y_i), \quad i=0,1,\cdots,n-1$$
 
 2. 梯形公式：
 $$y_{i+1} = y_i + \frac{h}{2} [f(x_i, y_i) + f(x_{i+1}, y_{i+1})], \quad i=0,1,\cdots,n-1$$
-3. 预测校正公式:
+3. 预测校正公式(改进的Euler公式)：
 $$\begin{cases}
-预测：\tilde{y}_{i+1} = y_i + h f(x_i, y_i) \\
-校正：y_{i+1} = y_i + \frac{h}{2} [f(x_i, y_i) + f(x_{i+1}, \tilde{y}_{i+1})]
+预测：y^{(p)}_{i+1} = y_i + h f(x_i, y_i) \\
+校正：y_{i+1} = y_i + \frac{h}{2} [f(x_i, y_i) + f(x_{i+1}, y^{(p)}_{i+1})]
 \end{cases}$$
-4. 局部截断误差：$R_{i+1} = y(x_{i+1}) - y(x_i) - \frac{h}{2} [f(x_i, y(x_i)) + f(x_{i+1}, y(x_i)+hf(x_i,y(x_i))]$
-5. 整体截断误差：$E(h)= \max\limits_{0 \leq i \leq n} |y(x_i) - y_i^{[h]}|$
+局部截断误差：$R_{i+1} = y(x_{i+1}) - y(x_i) - \frac{h}{2} [f(x_i, y(x_i)) + f(x_{i+1}, y(x_i)+hf(x_i,y(x_i))]$  
+
+求法：分别求出预测公式的截断误差 $R^{（p）}_ {i+1}$ 和校正公式的截断误差 $R^{（c）}_ {i+1}$ ，则$R_{i+1}$可以通过加项减项凑出$R^{（p）}_ {i+1}$和$R^{（c）}_ {i+1}$  
+若$R_{i+1}=O(h^{p+1})$，则称该公式为 $p$ 阶的。Euler 公式为 1 阶，梯形公式和预测校正公式为 2 阶。  
+
+4. 整体截断误差：$E(h)= \max\limits_{0 \leq i \leq n} |y(x_i) - y_i^{[h]}|$
+### Runge-Kutta 方法
+1. r级 Runge-Kutta 公式：
+$$\begin{cases}
+y_{i+1} = y_i + h \sum\limits_{j=1}^{r} \alpha_j k_j \\
+k_1 = f(x_i, y_i) \\
+k_2 = f(x_i + \lambda_2 h, y_i + h (\mu_{21} k_1)) \\
+k_3 = f(x_i + \lambda_3 h, y_i + h (\mu_{31} k_1 + \mu_{32} k_2)) \\
+\quad \vdots \\
+k_r = f(x_i + \lambda_j h, y_i + h (\mu_{r1} k_1 + \mu_{r2} k_2 + \cdots + \mu_{r,r-1} k_{r-1}))
+\end{cases}$$
+2. 2阶 Runge-Kutta 公式推导：
+当 $r=2$ 时，有
+$$\begin{cases}
+y_{i+1} = y_i + h (\alpha_1 k_1 + \alpha_2 k_2) \\
+k_1 = f(x_i, y_i) \\
+k_2 = f(x_i + \lambda_2 h, y_i + h \mu_{21} k_1)
+\end{cases}$$
+其局部截断误差为
+$$\begin{cases}
+R_{i+1} = y(x_{i+1}) - y(x_i) - h (\alpha_1 K_1 + \alpha_2 K_2) \\
+K_1 = f(x_i, y(x_i)) \\
+K_2 = f(x_i + \lambda_2 h, y(x_i) + h \mu_{21} K_1)
+\end{cases}$$
+
+将 $y(x_{i+1})$ 在 $x_i$ 点 Taylor 展开, 将 $K_2$ 在 $(x_i, y_i)$ 点 Taylor 展开  
+代入使公式具有二阶精度，即$R_{i+1}=O(h^{3})$，得
+$$\begin{cases}
+\alpha_1 + \alpha_2 = 1 \\
+\alpha_2 \lambda_2 = \frac{1}{2} \\
+\alpha_2 \mu_{21} = \frac{1}{2}
+\end{cases}$$
+
+## 偏微分方程数值解
+### 抛物型方程的差分解法
+1. 网格剖分
+将求解区域 $[0, l] \times [0, T]$ 作等距网格剖分，设空间步长为 $h = \frac{l}{M}$，时间步长为 $\tau = \frac{T}{N}$，则网格点为
+$$(x_i, t_k) = (i h, k \tau), \quad 0 \leq i \leq M, 0 \leq k \leq N$$
+记 $u_i^k$ 为 $u(x_i, t_k)$ 的近似值。$r = \frac{a \tau}{h^2}$ 为步长比。  
+
+2. 差分格式推导  
+考虑下面的定解问题：
+$$\frac{\partial u}{\partial t} - a \frac{\partial^2 u}{\partial x^2}=f(x,t), \quad a > 0$$
+$$u(x,0) = \varphi(x), \quad x \in [0, l]$$
+$$u(0,t) = \alpha(t), \quad u(l,t) = \beta(t), \quad t \in [0, T]$$
+差分格式推导常用公式：
+$$g'(x_0)= \frac{1}{h}[g(x_0+h)-g(x_0)] - \frac{h}{2} g''(\xi),\quad x_0 < \xi < x_0 + h;$$
+$$g'(x_0)= \frac{1}{h}[g(x_0)-g(x_0-h)] + \frac{h}{2} g''(\xi),\quad x_0 - h < \xi < x_0;$$
+$$g'(x_0)= \frac{1}{2h}[g(x_0+h)-g(x_0-h)] - \frac{h^2}{6} g^{(3)}(\xi),\quad x_0 - h < \xi < x_0 + h;$$
+$$g''(x_0)= \frac{1}{h^2}[g(x_0+h)-2g(x_0)+g(x_0-h)] - \frac{h^2}{12} g^{(4)}(\xi),\quad x_0 - h < \xi < x_0 + h;$$
+$$g(x_0)= \frac{1}{2}[g(x_0+h)+g(x_0-h)] - \frac{h^2}{2} g''(\xi),\quad x_0 - h < \xi < x_0 + h.$$
+
