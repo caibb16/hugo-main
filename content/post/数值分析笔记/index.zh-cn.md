@@ -460,7 +460,7 @@ c_m
 设超定方程组为 $Ax = b$，其中 $A$ 为 $m \times n$ 矩阵，$m > n$，则其最小二乘解 $x^*$ 满足正规方程组
 $$A^T A x = A^T b$$
 * 离散数据的最佳平方逼近多项式：  
-给定离散数据点 $(x_i, y_i), i = 0, 1, \cdots, m$，设 $p(x) = \sum\limits_{i=0}^{m} c_i \varphi_i(x)$，如果$\varphi_k(x)=x^k$，则 $p(x)$ 称为数据点的 $m$ 次最小二乘拟合多项式。
+给定离散数据点 $(x_i, y_i), i = 0, 1, \cdots, n$，设 $p(x) = \sum\limits_{i=0}^{m} c_i \varphi_i(x)$，如果$\varphi_k(x)=x^k$，则 $p(x)$ 称为数据点的 $m$ 次最小二乘拟合多项式。
 记
 $$
 \mathbf{\varphi}_k =
@@ -468,14 +468,14 @@ $$
 \varphi_k(x_0) \\
 \varphi_k(x_1) \\
 \vdots \\
-\varphi_k(x_m)
+\varphi_k(x_n)
 \end{bmatrix}, \quad
 \mathbf{y} =
 \begin{bmatrix}
 y_0 \\
 y_1 \\
 \vdots \\
-y_m
+y_n
 \end{bmatrix}
 $$  
 $c_0 , c_1 , \cdots , c_n$ 是下面的 (正规) 方程组的解:
