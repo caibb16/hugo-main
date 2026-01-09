@@ -430,6 +430,7 @@ $$\begin{cases}
 f(a) - p_1(a) = -[f(x_1)-p_1(x_1)] = f(b)-p_1(b) \\
 f'(x_1) - p_1'(x_1) = 0
 \end{cases}$$
+### 最佳平方逼近
 * 最佳平方逼近多项式  
 定义：设$X$为内积空间， $f \in X$，$M$ 为$X$的子空间，$\varphi_0,\varphi_1,\cdots,\varphi_m$为$M$的一组基，若$\exists \varphi\in M_n$，使得对任意 $\psi \in M$，有
 $$||f - \varphi|| \leq ||f - \psi||$$
