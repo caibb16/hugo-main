@@ -97,6 +97,10 @@ $$
 $$
 \lim_{k \to \infty} \frac{x^* - x_{k+1}}{(x^* - x_k)^2} = -\frac{f''(x^*)}{2 f'(x^*)}
 $$
+### Newton 迭代法的大范围收敛性
+设 $f(x) \in C^2[a, b]$，且满足：
+$$f(a) f(b) < 0, \quad f'(x) \neq 0, \quad f''(x) 保号,\quad a - \frac{f(a)}{f'(a)} \leq b , \quad b - \frac{f(b)}{f'(b)} \ge a $$
+则对任意初值 $x_0 \in [a, b]$，迭代格式 $x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}$ 收敛于方程 $f(x) = 0$ 在 $[a, b]$ 上的唯一实根 $x^*$。
 ### 重根的 Newton 迭代法
 设 \(x^*\) 是方程 $f(x) = 0$ 的 $m$ 重根
 * 若 $m$ 已知，迭代改为：
@@ -296,7 +300,7 @@ $l_0(x), l_1(x), \cdots, l_n(x)$ 线性无关，称为 $n$ 次 Lagrange 插值�
 $$
 R_n(x)=f(x) - L_n(x) = \frac{f^{(n+1)}(\xi)}{(n+1)!} \omega_{n+1}(x)
 $$
-其中 $\omega_{n+1}(x) = (x - x_0)(x - x_1) \cdots (x - x_n)$。
+其中 $\omega_{n+1}(x) = (x - x_0)(x - x_1) \cdots (x - x_n)$, $\quad \xi$ 与 $x$ 有关。
 ### Newton 插值多项式
 1. 差商的定义：
 $$
