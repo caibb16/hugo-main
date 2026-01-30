@@ -46,6 +46,13 @@ git checkout -b feature-x
 # 删除本地分支
 git branch -d dev
 git branch -D dev  # 强制删除
+
+# 关联远程分支并推送
+git push -u origin main   # origin为远程名，main为本地分支名
+#git branch --set-upstream-to=origin/main 
+
+# 如果远程分支不存在，直接创建并关联
+git push --set-upstream origin main
 ```
 ## 本地和远程操作
 ```bash

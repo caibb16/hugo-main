@@ -400,10 +400,34 @@ hasNext() 判断当前指针是否有元素，next() 获取当前指向的元素
 4. 自定义异常
    * 手动定义异常类，继承Exception类或RuntimeException类，重写构造方法
    * 用于表示特定的异常情况，让报错信息更加见名知义 
-
-
-
-
+## File类
+### 创建File对象
+1. new File(String pathname)：通过路径创建File对象
+2. new File(String parent, String child)：通过父路径和子路径创建File对象
+3. new File(File parent, String child)：通过父File对象和子路径创建File对象
+### 常用方法
+1. 创建文件和目录
+   * createNewFile()：创建文件
+   * mkdir()：创建单级目录
+   * mkdirs()：创建多级目录
+2. 删除文件和目录
+   * delete()：删除文件或目录
+## IO流
+### 字节流
+1. 输入流：InputStream及其子类，用于读取数据
+2. 输出流：OutputStream及其子类，用于写出数据
+3. 常用子类：
+   * FileInputStream：文件字节输入流
+   * FileOutputStream：文件字节输出流
+   * BufferedInputStream：缓冲字节输入流
+   * BufferedOutputStream：缓冲字节输出流
+4. 字符集
+   * ASCII：美国标准信息交换码，单字节编码，表示128个字符
+   * ISO-8859-1：拉丁字母编码，单字节编码，表示256个字符
+   * GB2312：简体中文编码，双字节编码，表示6763个汉字和682个其他字符
+   * GBK：扩展GB2312，双字节编码，表示21003个汉字和其他字符
+   * UTF-8：可变长度编码，1-4字节表示一个字符，兼容ASCII编码，支持全球所有语言字符
+### 字符流
 
 
 
