@@ -418,9 +418,9 @@ hasNext() 判断当前指针是否有元素，next() 获取当前指向的元素
 2. 输出流：OutputStream及其子类，用于写出数据
 3. 常用子类：
    * FileInputStream：文件字节输入流
+      * 方法：read()、read(byte[] b)、read(byte[] b, int off, int len)
    * FileOutputStream：文件字节输出流
-   * BufferedInputStream：缓冲字节输入流
-   * BufferedOutputStream：缓冲字节输出流
+      * 方法：write(int b)、write(byte[] b)、write(byte[] b, int off, int len)
 4. 字符集
    * ASCII：美国标准信息交换码，单字节编码，表示128个字符
    * ISO-8859-1：拉丁字母编码，单字节编码，表示256个字符
@@ -428,6 +428,13 @@ hasNext() 判断当前指针是否有元素，next() 获取当前指向的元素
    * GBK：扩展GB2312，双字节编码，表示21003个汉字和其他字符
    * UTF-8：可变长度编码，1-4字节表示一个字符，兼容ASCII编码，支持全球所有语言字符
 ### 字符流
+1. 输入流：Reader及其子类，用于读取字符数据
+2. 输出流：Writer及其子类，用于写出字符数据
+3. 常用子类：
+   * FileReader：文件字符输入流
+      * 方法：read()、read(char[] cbuf)、readLine()
+   * FileWriter：文件字符输出流
+
 
 
 

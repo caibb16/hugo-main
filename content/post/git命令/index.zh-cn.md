@@ -33,16 +33,14 @@ git clone -b 分支名 https://github.com/username/repo.git
 ```bash
 # 查看本地分支
 git branch
-
 # 创建新分支
 git branch dev
-
+# 重命名分支
+git branch -m old-branch new-branch
 # 切换分支
 git checkout dev
-
 # 创建并切换到新分支
 git checkout -b feature-x
-
 # 删除本地分支
 git branch -d dev
 git branch -D dev  # 强制删除
@@ -53,6 +51,10 @@ git push -u origin main   # origin为远程名，main为本地分支名
 
 # 如果远程分支不存在，直接创建并关联
 git push --set-upstream origin main
+
+# 强制推送本地分支到远程分支
+git push -f origin main
+
 ```
 ## 本地和远程操作
 ```bash
