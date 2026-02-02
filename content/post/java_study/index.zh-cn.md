@@ -434,7 +434,18 @@ hasNext() 判断当前指针是否有元素，next() 获取当前指向的元素
    * FileReader：文件字符输入流
       * 方法：read()、read(char[] cbuf)、readLine()
    * FileWriter：文件字符输出流
-
+4. 使用场景
+   * 字节流：拷贝任意类型的文件
+   * 字符流：处理文本文件，如txt、java、xml等
+### 序列化流
+1. ObjectOutputStream：对象输出流，用于将对象序列化到文件中
+   * 方法：writeObject(Object obj)、flush()、close()
+2. ObjectInputStream：对象输入流，用于从文件中读取对象
+   * 方法：readObject()、close()
+### 转换流
+1. InputStreamReader：将字节流转换为字符流
+   * 构造方法：InputStreamReader(InputStream in)、InputStreamReader(InputStream in, String charsetName)
+2. OutputStreamWriter：将字符流转换为字节流
 
 
 
