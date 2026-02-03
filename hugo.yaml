@@ -41,7 +41,7 @@ pagination:
     pagerSize: 4
 
 permalinks:
-    post: /p/:slug/
+    post: /post/:slug/
     page: /:slug/
 
 # 文章排序方式：按最后修改时间倒序

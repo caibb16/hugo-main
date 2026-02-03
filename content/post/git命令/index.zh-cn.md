@@ -18,17 +18,17 @@ git config --global http.proxy http://127.0.0.1:7897
 # 查看当前配置
 git config --list
 ```
+
 ## 仓库初始化与克隆
 ```bash
 # 在当前目录初始化仓库
 git init
-
 # 克隆远程仓库
 git clone https://github.com/username/repo.git
-
 # 克隆指定分支
 git clone -b 分支名 https://github.com/username/repo.git
 ```
+
 ## 分支管理
 ```bash
 # 查看本地分支
@@ -44,6 +44,8 @@ git checkout -b feature-branch
 # 删除本地分支
 git branch -d dev
 git branch -D dev  # 强制删除
+# 移除git跟踪的文件但保留在本地
+git rm --cached 文件名
 
 # 强制推送本地分支到远程分支
 git push -f origin main
@@ -52,9 +54,8 @@ git push -u origin main   # origin为远程名，main为本地分支名
 # 如果远程分支不存在，直接创建并关联
 git push --set-upstream origin main
 
-
-
 ```
+
 ## 本地和远程操作
 ```bash
 # 查看远程仓库
@@ -71,4 +72,6 @@ git reset --soft HEAD^
 git push origin main
 # 拉取远程仓库最新代码
 git pull origin main
+# 添加submodule
+git submodule add <inner_repo_url> path/to/inner_repo
 ```
