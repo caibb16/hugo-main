@@ -446,7 +446,9 @@ hasNext() 判断当前指针是否有元素，next() 获取当前指向的元素
 1. InputStreamReader：将字节流转换为字符流
    * 构造方法：InputStreamReader(InputStream in)、InputStreamReader(InputStream in, String charsetName)
 2. OutputStreamWriter：将字符流转换为字节流
-
+## 多线程
+进程：程序在计算机中运行时的一个实例  
+线程：进程中的一个执行单元，一个进程可以有多个线程，线程之间互相独立，共享进程的资源
 
 
 
