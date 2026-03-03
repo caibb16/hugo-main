@@ -231,6 +231,10 @@ torch.cat([a, b], dim=0)   # (4, 3)
 # 沿列拼接（列数相同，行加长）
 torch.cat([a, b], dim=1)   # (2, 6)
 
+# 分割
+torch.split(a, 1, dim=0)         # 沿行分割成 2 个 (1, 3)
+torch.chunk(a, 2, dim=1)         # 沿列分割成 2 个 (2, 1)
+
 # 堆叠（新增一维）
 torch.stack([a, b], dim=0) # (2, 2, 3)
 ```
