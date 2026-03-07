@@ -75,3 +75,13 @@ git pull origin main
 # 添加submodule
 git submodule add <inner_repo_url> path/to/inner_repo
 ```
+
+# 本地项目初始化流程
+```bash
+git init
+git add .
+git commit -m "initial commit"
+git branch -M main
+git remote add origin <url>
+git push -u origin main # 后续只需 git push
+```
