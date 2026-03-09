@@ -50,7 +50,7 @@ git rm --cached 文件名
 # 强制推送本地分支到远程分支
 git push -f origin main
 # 关联远程分支并推送
-git push -u origin main   # origin为远程名，main为本地分支名
+git push -u origin main   # origin为远程名，origin main 为远程 main 分支
 # 如果远程分支不存在，直接创建并关联
 git push --set-upstream origin main
 
@@ -82,6 +82,6 @@ git init
 git add .
 git commit -m "initial commit"
 git branch -M main
-git remote add origin <url>
+git remote add origin <url> # 远程需要先创建仓库
 git push -u origin main # 后续只需 git push
 ```
