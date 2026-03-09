@@ -76,7 +76,7 @@ git pull origin main
 git submodule add <inner_repo_url> path/to/inner_repo
 ```
 
-# 本地项目初始化流程
+## 本地项目初始化流程
 ```bash
 git init
 git add .
