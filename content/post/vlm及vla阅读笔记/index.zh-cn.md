@@ -81,5 +81,12 @@ discretized_action = np.digitize(action, self.bins)
 # 映射到词表的末尾一段token_id（对于BPE分词法，最不常用的token在词表末尾）
 return self.tokenizer.decode(list(self.tokenizer.vocab_size - discretized_action))
 ```
-
+3. 动作解码  
+      token_id $\xrightarrow{decode}$ discretized_action $\in [1, 256] \xrightarrow{clip}$ decretized_action $\in [0, 254]$
+      $\xrightarrow{取值}$ bin_centers[discretized_actions]
+```python
+discretized_actions = self.tokenizer.vocab_size - action_token_ids
+discretized_actions = np.clip(discretized_actions - 1, a_min=0, a_max=self.bin_centers.shape[0] - 1)
+return self.bin_centers[discretized_actions]
+```
 

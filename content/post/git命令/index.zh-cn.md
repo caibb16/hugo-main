@@ -11,6 +11,11 @@ tags: ['git', '命令速查']
 # 设置用户名和邮箱（全局）
 git config --global user.name "<用户名>"
 git config --global user.email "<邮箱>"
+# 设置用户名和邮箱（当前终端）
+export GIT_AUTHOR_NAME="Your Name"
+export GIT_AUTHOR_EMAIL="you@example.com"
+export GIT_COMMITTER_NAME="Your Name"
+export GIT_COMMITTER_EMAIL="you@example.com"
 
 # 配置全局代理，端口设置为clash的端口
 git config --global http.proxy http://127.0.0.1:7897
