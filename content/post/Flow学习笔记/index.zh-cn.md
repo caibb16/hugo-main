@@ -1,9 +1,10 @@
 +++
 date = '2025-12-27T16:15:50+08:00'
-draft = true
+draft = false
 title = 'Flow学习笔记'
 categories = ['笔记']
 tags = ['flow', '大模型']
+math = true
 +++
 
 ## 生成式模型
