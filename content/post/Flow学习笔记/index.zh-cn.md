@@ -12,7 +12,7 @@ generate something——generate samples from data distributions
 A generative model——convert samples from a initial distribution(e.g.Gaussian) into samples from the data distribution
 ![生成过程](image.png)
 ## 组成
-一个空间的向量场 $u_t$（神经网络）定义了一个常微分方程（ODE），轨迹 $X_t$ 是ODE在某初始条件下的一个解，flow——$Φ_t（x_0）$则是针对不同初始条件的一系列解的集合
+一个空间的向量场 $u_t$（神经网络）定义了一个常微分方程（ODE），轨迹 $X_t$ 是ODE在某初始条件下的一个解，flow——$Φ_t（x_0）$则是针对不同初始条件的一系列解的集合  
 ODE（用于流模型，本文采用）：
 $X_0=x_0, \quad \frac{dX_t}{dt} = u_t(X_t)$  
 SDE（在ODE基础上添加扩散系数σt，用于扩散模型）：  
