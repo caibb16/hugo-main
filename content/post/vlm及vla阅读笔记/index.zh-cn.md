@@ -9,9 +9,23 @@ tags: []
 math: true 
 ---
 
-## VLM
-### LLaVA
-`prepare_inputs_labels_for_multimodal()` 函数解读  
+# VLM
+## LLaVA
+### 一、训练流程
+原项目的readme提供了llava训练流程的概览，主要包括两个阶段：
+1. 第一阶段：预训练（特征对齐）  
+这一阶段的目标是将图像特征映射到语言维度，使得模型能够理解视觉信息，核心任务是训练一个 vision-language connector.。
+      - 数据集：图像-文本对
+      - 脚本：[/scripts/v1_5/pretrain.sh](https://github.com/haotian-liu/LLaVA/blob/main/scripts/v1_5/pretrain.sh)  
+脚本中有一行参数`--tune_mm_mlp_adapter True`，对应训练脚本[train.py](https://github.com/haotian-liu/LLaVA/blob/main/llava/train/train.py)中的代码：
+![alt text](image-4.png)
+表示只训练`mm_projector`的参数，其他参数全部冻结。`mm_projector`就是将图像映射到语言维度的connector，用来进行特征对齐，原文描述是一个两层的MLP。
+2. 第二阶段：视觉指令微调  
+这一阶段的目标是让模型能够根据视觉输入执行指令，进行多模态理解和生成，核心任务是端到端地微调 LLM 和 connector。
+      - 数据集：包括指令对话数据(json文件)和图像
+      - 脚本：[/scripts/v1_5/finetune_lora.sh](https://github.com/haotian-liu/LLaVA/blob/main/scripts/v1_5/finetune_lora.sh)
+   
+### 二、`prepare_inputs_labels_for_multimodal()` 函数解读  
 [源代码](https://github.com/haotian-liu/LLaVA/blob/main/llava/model/llava_arch.py)  
 该函数用于将输入文本和图像进行拼接，并生成对应的标签，是视觉语言融合的核心函数，  
 事例如下：
@@ -55,8 +69,28 @@ ASSISTANT: "
 
 ![](image.png)
 
-## VLA
-### OpenVLA
+4. 插入图像特征后的序列被送入LLM进行处理，具体见[llava_llama.py](https://github.com/haotian-liu/LLaVA/blob/main/llava/model/language_model/llava_llama.py)中的`forward()`函数。
+
+### 三、lora微调
+[源代码](https://github.com/haotian-liu/LLaVA/blob/main/llava/train/train.py)  
+
+使用[scripts/v1_5/finetune_lora.sh](https://github.com/haotian-liu/LLaVA/blob/main/scripts/v1_5/finetune_lora.sh)脚本进行微调，可以看到 lora 参数如下：
+
+```bash
+--lora_enable True --lora_r 128 --lora_alpha 256 --mm_projector_lr 2e-5
+```
+- lora_enable：启用lora微调
+- lora_r：lora秩，控制低秩矩阵的维度
+- lora_alpha：lora缩放因子，控制lora更新的幅度
+- mm_projector_lr：多模态投影器的学习率
+
+配置LoRA参数并添加到模型
+![alt text](image-3.png)
+其中`get_peft_model()`函数把 LoRA 注入到目标层，返回一个 PEFT 包装后的模型，之后训练时只更新 LoRA 参数，基础模型权重保持冻结，具体可参考[PEFT文档](https://hugging-face.cn/docs/peft/quicktour) 。  
+`注意`：原项目中的pyproject.toml文件中没有指定peft库的版本，安装时会默认安装最新版本，实测目前peft最新版本与项目指定的transformers库存在兼容性问题，建议使用peft 0.4.0版本 。
+
+# VLA
+## OpenVLA
 `class ActionTokenizer`类解读  
 [源代码](https://github.com/openvla/openvla/blob/main/prismatic/vla/action_tokenizer.py)
 
