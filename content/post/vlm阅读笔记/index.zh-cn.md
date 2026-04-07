@@ -5,7 +5,7 @@ draft: false
 description: ""
 categories:
   - 笔记
-tags: []
+tags: [VLM]
 math: true 
 ---
 

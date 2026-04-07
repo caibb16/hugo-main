@@ -4,8 +4,9 @@ date: 2026-04-07T08:45:20+08:00
 draft: false
 description: ""
 categories:
-  - 
-tags: []
+  - 笔记
+tags: [VLA]
+math: true
 ---
 
 ## OpenVLA

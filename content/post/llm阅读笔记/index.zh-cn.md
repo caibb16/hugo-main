@@ -4,8 +4,9 @@ date: 2026-04-07T08:52:43+08:00
 draft: false
 description: ""
 categories:
-  - 
-tags: []
+  - 笔记
+tags: [LLM]
+math: true
 ---
 
 ## nanoGPT

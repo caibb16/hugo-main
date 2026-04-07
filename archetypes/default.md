@@ -6,4 +6,5 @@ description: ""
 categories:
   - 
 tags: []
+math: true
 ---
