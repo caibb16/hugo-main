@@ -45,12 +45,12 @@ math: true
   - RMSNorm没有偏置项$\beta$，只有缩放参数$\gamma$
 ### RoPE位置编码  
 1. 计算公式
-  - 位置编码：$f(x_m,m) = x_m*e^{im\theta_i} = x_m \cdot \cos(m\theta_i) + i*x_m \cdot \sin(m\theta_i)$ ,其中m为位置索引，$\theta_i$为频率，$x_m$表示位置m的输入向量
+  - 位置编码：$f(x_m,m) = x_m * e^{im\theta_i} = x_m \cdot \cos(m\theta_i) + i*x_m \cdot \sin(m\theta_i)$ ,其中m为位置索引，$\theta_i$为频率，$x_m$表示位置m的输入向量
   - 两两分组：将向量分为前半部分和后半部分并一一配对(与RoPE原论文的配对方式略有不同，但最终效果相同)  
   $x_m = [x_{m,0}, x_{m,1}, ..., x_{m,d/2-1}, x_{m,d/2}, ..., x_{m,d-1}]$
   rotate_half $(x_m) = [-x_{m,d/2}, ..., -x_{m,d-1}, x_{m,0}, ..., x_{m,d/2-1}]$  
-  表示为复数形式：$x_m = [x_{m,0} + i*x_{m,d/2}, x_{m,1} + i*x_{m,d/2+1}, ..., x_{m,d/2-1} + i*x_{m,d-1}]$  
-  rotate_half $(x_m) = [-x_{m,d/2} + i*x_{m,0}, -x_{m,d/2+1} + i*x_{m,1}, ..., -x_{m,d-1} + i*x_{m,d/2-1}]$  
+  表示为复数形式：$x_m = [x_{m,0} + i * x_{m,d/2}, x_{m,1} + i * x_{m,d/2+1}, ..., x_{m,d/2-1} + i * x_{m,d-1}]$  
+  rotate_half $(x_m) = [-x_{m,d/2} + i * x_{m,0}, -x_{m,d/2+1} + i * x_{m,1}, ..., -x_{m,d-1} + i * x_{m,d/2-1}]$  
   则$i*x_m$表示为：$i*x_m =$ rotate_half $(x_m)$
   - 最终位置编码：$f(x_m,m) = x_m \cdot \cos(m\theta_i) +$ rotate_half $(x_m) \cdot \sin(m\theta_i)$
 2. 代码如下：
