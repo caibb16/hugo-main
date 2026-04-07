@@ -1,5 +1,5 @@
 ---
-title: 'vlm阅读笔记'
+title: 'VLM阅读笔记'
 date: 2026-03-18T10:59:00+08:00
 draft: false
 description: ""

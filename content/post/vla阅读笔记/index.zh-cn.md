@@ -1,5 +1,5 @@
 ---
-title: 'Vla阅读笔记'
+title: 'VLA阅读笔记'
 date: 2026-04-07T08:45:20+08:00
 draft: false
 description: ""
