@@ -97,6 +97,10 @@ for _ in range(max_new_tokens):
 ···
 return input_ids
 ```
-
-
-    
+### pretrain和SFT的区别
+1. 训练时dataset处理
+   - pretrain：使用大规模文本数据进行无监督训练，输入是纯文本序列，标签是下一个token
+   - SFT：使用人工标注的对话数据进行有监督训练，输入是对话上下文，标签是回复文本
+2. 推理时prompt处理
+   - pretrain：inputs =  <|im_start|> + prompt
+   - SFT：inputs = <|im_start|>user + prompt + <|im_end|><|im_start|>assistant
