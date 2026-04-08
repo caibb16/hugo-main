@@ -9,7 +9,7 @@ tags: [LLM]
 math: true
 ---
 
-## nanoGPT
+## nanoGPT  [源代码](https://github.com/caibb16/my_nanoGPT)
 ### LayerNorm  
    - 计算均值：$\mu = \frac{1}{d} \sum_{i=1}^{d} x_i$  
    - 计算方差：$\sigma^2 = \frac{1}{d} \sum_{i=1}^{d} (x_i - \mu)^2$  
@@ -34,7 +34,7 @@ math: true
    ```
    idx = torch.cat((idx_cond, idx_next), dim=1)
    ```
-## minimind
+## minimind  [源代码](https://github.com/caibb16/minimind)
 ### RMSNorm
 1. 计算公式
   - 计算均方根：$rms = \sqrt{\frac{1}{d} \sum_{i=1}^{d} x_i^2}$  
@@ -70,5 +70,33 @@ math: true
 ### MoE
 1. 概念：(Mixture of Experts)将FFN层替换为多个专家网络，每个专家网络是一个标准的FFN层，在前向传播时每个token动态选择其中k个专家进行计算，从而提高模型的表达能力和效率
 2. 具体实现：使用一个门控网络（gating network）来计算每个token选择哪个专家，门控网络输出一个权重分布，表示每个专家的选择概率，然后根据这个分布选择k个专家进行计算，并将它们的输出加权求和作为最终的FFN输出
+### 训练时`forward()`函数
+1. 自定义`Dataset`类，重写`__getitem__()`方法，返回输入序列和标签
+![alt text](image.png)
+2. 计算交叉熵损失
+```python
+# 错位对齐，logits去掉最后一个token，labels去掉第一个token
+x, y = logits[..., :-1, :].contiguous(), labels[..., 1:].contiguous()
+loss = F.cross_entropy(x.view(-1, x.size(-1)), y.view(-1), ignore_index=-100)
+```
+### 推理时`generate()`函数
+```python
+for _ in range(max_new_tokens):
+  past_len = past_key_values[0][0].shape[1] if past_key_values else 0
+  # 只输入新生成的token，利用kv_cache包含之前的计算结果，避免重复计算
+  outputs = self.forward(input_ids[:, past_len:], attention_mask, past_key_values, use_cache=use_cache, **kwargs)
+  ···
+  # 根据 logits 生成下一个 token
+  next_token = torch.multinomial(torch.softmax(logits, dim=-1), num_samples=1) if do_sample else torch.argmax(logits, dim=-1, keepdim=True)
+  # 判断句子是否结束，如果结束则将下一个token强制设置为eos_token_id
+  if eos_token_id is not None: next_token = torch.where(finished.unsqueeze(-1), next_token.new_full((next_token.shape[0], 1), eos_token_id), next_token)
+  # 拼接下一个token到输入序列
+  input_ids = torch.cat([input_ids, next_token], dim=-1)
+  # 存储kv_cache以供下一轮使用
+  past_key_values = outputs.past_key_values if use_cache else None
+···
+return input_ids
+```
+
 
     
