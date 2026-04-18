@@ -11,15 +11,8 @@ tags: ['git', '命令速查']
 # 设置用户名和邮箱（全局）
 git config --global user.name "<用户名>"
 git config --global user.email "<邮箱>"
-# 设置用户名和邮箱（当前终端）
-export GIT_AUTHOR_NAME="Your Name"
-export GIT_AUTHOR_EMAIL="you@example.com"
-export GIT_COMMITTER_NAME="Your Name"
-export GIT_COMMITTER_EMAIL="you@example.com"
-
 # 配置全局代理，端口设置为clash的端口
 git config --global http.proxy http://127.0.0.1:7897
-
 # 查看当前配置
 git config --list
 ```
@@ -49,9 +42,9 @@ git checkout -b feature-branch
 # 删除本地分支
 git branch -d dev
 git branch -D dev  # 强制删除
-# 移除git跟踪的文件但保留在本地
-git rm --cached 文件名
 
+# 关联本地分支与远程分支
+git branch --set-upstream-to=origin/main
 # 强制推送本地分支到远程分支
 git push -f origin main
 # 关联远程分支并推送
@@ -73,6 +66,9 @@ git add 文件名
 git commit -m "提交信息"
 # 撤销上一次的更改提交
 git reset --soft HEAD^
+# 移除git跟踪的文件但保留在本地
+git rm --cached 文件名
+git rm -r --cached 文件夹名
 # 推送到远程仓库
 git push origin main
 # 拉取远程仓库最新代码
