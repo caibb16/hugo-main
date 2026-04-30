@@ -8,9 +8,9 @@ tags: ['git', '命令速查']
 
 ## 基础配置
 ```bash
-# 设置用户名和邮箱（全局）
-git config --global user.name "<用户名>"
-git config --global user.email "<邮箱>"
+# 设置用户名和邮箱
+git config  user.name "<用户名>"
+git config  user.email "<邮箱>"
 # 配置全局代理，端口设置为clash的端口
 git config --global http.proxy http://127.0.0.1:7897
 # 查看当前配置
@@ -44,6 +44,7 @@ git branch -d dev
 git branch -D dev  # 强制删除
 
 # 关联本地分支与远程分支
+git fetch origin # 获取远程分支列表
 git branch --set-upstream-to=origin/main
 # 强制推送本地分支到远程分支
 git push -f origin main
