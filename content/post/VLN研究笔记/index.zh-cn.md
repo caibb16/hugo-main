@@ -4,8 +4,8 @@ date: 2026-05-14T14:57:21+08:00
 draft: false
 description: ""
 categories:
-  - 
-tags: []
+  - 笔记
+tags: [VLN]
 math: true
 ---
 ## VLN_CE数据集
