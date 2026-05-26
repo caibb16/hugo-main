@@ -11,8 +11,8 @@ tags: ['git', '命令速查']
 # 设置用户名和邮箱
 git config  user.name "caibb16"
 git config  user.email "2820875472@qq.com"
-# 配置全局代理，端口设置为clash的端口
-git config --global http.proxy http://127.0.0.1:7897
+# 配置git代理，端口设置为clash的端口，只对当前仓库生效
+git config --local http.proxy http://127.0.0.1:7897
 # 查看当前配置
 git config --list
 ```
