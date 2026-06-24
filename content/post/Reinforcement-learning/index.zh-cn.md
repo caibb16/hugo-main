@@ -1,10 +1,11 @@
-+++
-date = '2025-12-21T14:49:14+08:00'
-description = '强化学习及PPO算法简介'
-title = 'Reinforcement Learning'
-categories = ['笔记']
-tags = ['强化学习', 'PPO算法']
-+++
+---
+date: '2025-12-21T14:49:14+08:00'
+description: '强化学习及PPO算法简介'
+title: 'Reinforcement Learning'
+categories: ['笔记']
+tags: ['强化学习', 'PPO算法']
+math: true
+---
 ## 什么是强化学习
 强化学习（Reinforcement Learning，RL）是一种机器学习范式，旨在训练智能体通过与环境交互来学习最佳行为策略，以最大化累积奖励。与监督学习不同，强化学习没有明确的输入输出对，而是通过试错和奖励信号来指导学习过程。
 ## 强化学习的基本概念
@@ -29,3 +30,14 @@ Proximal Policy Optimization（PPO）是一种常用的强化学习算法，属�
     其中， A(s, a)是优势函数，Q(s, a)表示在状态 s 下采取动作 a 随后继续遵循策略π的价值，V(s) 表示在状态 s 下遵循策略π的价值。
 3. **更新策略网络**：利用优势函数来更新自己的策略网络，使自己更倾向于选择能获得高评分的动作。同时使用剪切概率比限制策略更新的幅度，确保新策略不会偏离旧策略过远。
 4. **更新价值网络**：使用TD误差优化价值网络参数，TD误差可以衡量价值网络预测值与实际回报之间的差异。
+   
+## PPO与GRPO
+训练损失：$L = -\min \left (r(\theta) A(s, a), \text{clip}(r(\theta), 1 - \epsilon, 1 + \epsilon) A(s, a) \right)$  
+其中，$r(\theta) = \frac{\pi_{\theta}(a|s)}{\pi_{\theta_{old}}(a|s)}$ 是新旧策略的概率比，$\epsilon$ 是一个超参数，用于控制剪切范围。  
+若 A>0，说明动作 a 比平均水平更好，增加选择动作 a 的概率；若 A<0，说明动作 a 比平均水平差，降低选择动作 a 的概率。
+### PPO
+$A(s, a) = R - V(s)$  
+R 为自定义奖励函数，V(s) 为价值网络，需要通过训练来学习。
+### GRPO
+GRPO 会生成一组输出分数 $R_i$，并计算它们的均值 $\mu$ 和标准差 $\sigma$，然后使用以下公式计算优势函数：
+$A_i = \frac{R_i - \mu}{\sigma}$
